@@ -6,17 +6,17 @@ export default defineConfig({
   
   // 🔥 KHỐI BUILD (Cần cho Vercel/Production)
   build: {
-    outDir: 'dist', // Thư mục output cho Vercel
+    outDir: 'dist', 
     rollupOptions: {
       external: [
-        // Khắc phục lỗi Rollup không phân giải các thư viện i18next
+        // THƯ VIỆN GÂY LỖI: Cần khai báo external để Rollup không cố gắng đóng gói nó.
         'i18next-browser-languagedetector', 
         'i18next-http-backend' 
       ],
     },
   },
   
-  // 🔥 KHỐI SERVER (Cần cho Local Development với Proxy)
+  // 🔥 KHỐI SERVER (Giữ lại cho Local Development)
   server: {
     proxy: {
       // Proxy để chuyển tiếp yêu cầu API sang backend Flask khi chạy cục bộ
