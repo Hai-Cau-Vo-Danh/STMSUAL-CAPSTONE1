@@ -1,18 +1,30 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  
+  // 🔥 KHỐI BUILD (Cần cho Vercel/Production)
+  build: {
+    outDir: 'dist', // Thư mục output cho Vercel
+    rollupOptions: {
+      external: [
+        // Khắc phục lỗi Rollup không phân giải các thư viện i18next
+        'i18next-browser-languagedetector', 
+        'i18next-http-backend' 
+      ],
+    },
+  },
+  
+  // 🔥 KHỐI SERVER (Cần cho Local Development với Proxy)
   server: {
     proxy: {
-      // Bất kỳ yêu cầu nào bắt đầu bằng '/api'
+      // Proxy để chuyển tiếp yêu cầu API sang backend Flask khi chạy cục bộ
       '/api': {
-        // Sẽ được chuyển tiếp đến backend Flask
         target: 'http://localhost:5000', 
-        changeOrigin: true, // Cần thiết để backend chấp nhận yêu cầu
-        secure: false,      // Chấp nhận nếu backend là http
+        changeOrigin: true, 
+        secure: false,
       }
     }
   }
-})
+});
