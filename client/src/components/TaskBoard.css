@@ -1,0 +1,630 @@
+.taskboard-wrapper {
+  padding: 32px;
+  /* Use variable for background */
+  background-color: var(--bg-color);
+  min-height: calc(100vh - 70px); /* Adjust min-height considering header */
+  transition: background-color 0.3s ease; /* Add transition */
+}
+
+.taskboard-top-header {
+  margin-bottom: 24px;
+}
+
+.taskboard-main-title {
+  font-size: 28px;
+  font-weight: 700;
+  /* Keep gradient using variables */
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 20px 0;
+}
+
+.taskboard-search-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg-secondary-color); /* Use secondary background */
+  padding: 14px 20px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color); /* Use border variable */
+  transition: all 0.3s ease;
+  max-width: 600px;
+}
+
+.taskboard-search-bar:focus-within {
+  border-color: var(--primary-color); /* Use primary color */
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2); /* Adjust alpha */
+  background: var(--bg-secondary-color); /* Ensure background doesn't change too drastically */
+}
+
+.taskboard-search-bar .search-icon {
+  font-size: 18px;
+  color: var(--text-secondary-color); /* Use secondary text color */
+  transition: color 0.3s ease;
+}
+.taskboard-search-bar:focus-within .search-icon {
+    color: var(--primary-color); /* Use primary color */
+}
+
+.taskboard-search-bar .search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: var(--text-color); /* Use text color */
+  background: transparent; /* Input background is transparent */
+  font-family: inherit;
+}
+
+.taskboard-search-bar .search-input::placeholder {
+  color: var(--text-secondary-color); /* Use secondary text color */
+  transition: color 0.3s ease;
+}
+
+.task-board {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto; /* Keep horizontal scroll */
+  padding-bottom: 20px; /* Space for scrollbar */
+  /* Improve scrollbar appearance */
+  scrollbar-width: thin;
+  scrollbar-color: var(--text-secondary-color) transparent;
+}
+.task-board::-webkit-scrollbar { width: 8px; height: 8px; }
+.task-board::-webkit-scrollbar-track { background: transparent; }
+.task-board::-webkit-scrollbar-thumb { background-color: var(--text-secondary-color); border-radius: 4px; border: 2px solid transparent; background-clip: content-box; }
+.task-board::-webkit-scrollbar-thumb:hover { background-color: var(--text-color); }
+
+
+.task-column {
+  min-width: 320px;
+  max-width: 380px;
+  width: 340px;
+  flex-shrink: 0;
+  background: var(--bg-secondary-color); /* Use secondary background */
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-self: flex-start; /* Important for flex layout */
+  border: 1px solid var(--border-color); /* Use border variable */
+  box-shadow: 0 4px 12px var(--shadow-color); /* Add initial shadow */
+  transition: all 0.3s ease;
+  height: calc(100vh - 200px); /* Example fixed height, adjust as needed */
+  max-height: calc(100vh - 150px); /* Prevent excessive height */
+}
+
+.task-column:hover {
+  box-shadow: 0 8px 20px var(--shadow-color); /* Use shadow variable */
+  border-color: var(--primary-color); /* Use primary color */
+  transform: translateY(-2px); /* Subtle lift */
+}
+
+.column-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 10px; /* Add padding below */
+  border-bottom: 1px solid var(--border-color); /* Separator */
+  transition: border-color 0.3s ease;
+}
+
+.column-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.column-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-color); /* Use text color */
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+.column-count {
+  background-color: var(--bg-color); /* Use main background */
+  color: var(--text-secondary-color); /* Use secondary text color */
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 50px;
+  min-width: 24px;
+  text-align: center;
+  line-height: 1.2;
+  border: 1px solid var(--border-color); /* Add border */
+  transition: all 0.3s ease;
+}
+
+.column-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.column-btn {
+  width: 32px; height: 32px; min-width: 32px; padding: 0; border: none;
+  border-radius: 8px; cursor: pointer; display: flex; align-items: center;
+  justify-content: center; font-size: 18px;
+  color: var(--text-secondary-color); /* Use secondary text color */
+  background: var(--bg-color); /* Use main background */
+  transition: all 0.3s ease; font-weight: 600;
+  border: 1px solid var(--border-color); /* Add border */
+}
+
+.column-btn:hover {
+  background: var(--bg-secondary-color); /* Use secondary background */
+  color: var(--primary-color); /* Use primary color */
+  border-color: var(--primary-color);
+  transform: translateY(-2px);
+}
+
+.column-btn.add-btn:hover {
+  /* Keep gradient for add button */
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: white; /* White icon */
+  border-color: transparent;
+  box-shadow: 0 4px 12px var(--shadow-color); /* Use shadow variable */
+}
+
+.column-content {
+  flex: 1; /* Allow content to grow */
+  overflow-y: auto; /* Enable vertical scroll *within* the column */
+  padding-right: 8px; /* Space for scrollbar */
+  margin-right: -8px; /* Counteract padding for full width */
+  position: relative; /* Needed for z-index hover effect */
+  /* Improve scrollbar appearance */
+  scrollbar-width: thin;
+  scrollbar-color: var(--text-secondary-color) transparent;
+}
+.column-content::-webkit-scrollbar { width: 6px; }
+.column-content::-webkit-scrollbar-track { background: transparent; }
+.column-content::-webkit-scrollbar-thumb { background-color: var(--text-secondary-color); border-radius: 3px; }
+.column-content::-webkit-scrollbar-thumb:hover { background-color: var(--text-color); }
+
+
+.column-content > div { /* Target TaskCard components */
+  margin-bottom: 10px; /* Use margin-bottom instead of margin-top */
+  position: relative;
+  z-index: 1;
+}
+.column-content > div:last-child {
+    margin-bottom: 0; /* No margin for the last card */
+}
+
+.column-content > div:hover {
+  z-index: 100; /* Bring card to front on hover */
+}
+
+/* --- MODAL STYLES (Copied/Adjusted from Profile.css) --- */
+
+.modal-overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex; align-items: center; justify-content: center; z-index: 1000;
+  padding: 20px; backdrop-filter: blur(4px); animation: fadeIn 0.2s ease;
+}
+body.dark .modal-overlay { background: rgba(0, 0, 0, 0.8); }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.modal-content {
+  background: var(--bg-secondary-color); /* Use secondary background */
+  border-radius: 16px; width: 100%; max-width: 600px; max-height: 90vh;
+  overflow: hidden; display: flex; flex-direction: column;
+  box-shadow: 0 20px 60px var(--shadow-color); /* Use shadow variable */
+  border: 1px solid var(--border-color); /* Add border */
+  animation: slideUp 0.3s ease;
+  transition: background-color 0.3s ease, border-color 0.3s ease; /* Add transition */
+}
+
+@keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+.modal-header {
+  display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; /* Adjust padding */
+  border-bottom: 1px solid var(--border-color); /* Use border variable */
+  transition: border-color 0.3s ease;
+}
+
+.modal-title {
+  font-size: 18px; font-weight: 700; /* Adjusted size */
+  color: var(--text-color); /* Use text color */
+  margin: 0; transition: color 0.3s ease;
+}
+
+.modal-header-actions { display: flex; gap: 8px; align-items: center; }
+
+.delete-btn {
+  background: none; border: none; padding: 8px; border-radius: 8px;
+  cursor: pointer; font-size: 18px; transition: all 0.2s;
+  color: var(--text-secondary-color); /* Start with secondary color */
+}
+.delete-btn:hover {
+  background: #fee2e2; /* Keep semantic light red */
+  color: #ef4444; /* Keep semantic red */
+  transform: scale(1.1);
+}
+
+.close-modal-btn {
+  background: none; border: none; padding: 8px; border-radius: 8px;
+  cursor: pointer; color: var(--text-secondary-color); /* Use secondary text color */
+  font-size: 24px; display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.close-modal-btn:hover {
+  background: var(--bg-color); /* Use main background */
+  color: var(--text-color); /* Use main text color */
+  transform: rotate(90deg);
+}
+
+.modal-body { padding: 24px; overflow-y: auto; flex: 1; }
+
+/* Natural Language Input */
+.natural-input-section {
+  /* Use subtle background or border */
+  background-color: var(--bg-color);
+  padding: 20px; border-radius: 12px; margin-bottom: 20px;
+  border: 1px solid var(--border-color);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.form-label {
+  display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600;
+  color: var(--primary-color); /* Use primary color */
+  margin-bottom: 12px; transition: color 0.3s ease;
+}
+
+.sparkle-icon { font-size: 18px; color: currentColor; }
+
+.natural-input-wrapper { display: flex; gap: 10px; align-items: center; }
+
+.natural-input {
+  flex: 1; padding: 12px 16px;
+  border: 1px solid var(--border-color); /* Use border variable */
+  border-radius: 10px; font-size: 14px;
+  color: var(--text-color); /* Use text color */
+  background-color: var(--bg-secondary-color); /* Use secondary background */
+  transition: all 0.3s ease; font-family: inherit;
+}
+.natural-input:focus {
+  outline: none; border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+}
+
+.quick-create-btn {
+  padding: 12px 10px;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: white; border: none; border-radius: 10px; font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center;
+  gap: 6px; font-family: inherit; white-space: nowrap;
+}
+.quick-create-btn:hover {
+  background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+  transform: translateY(-2px); box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.input-hint {
+  margin: 10px 0 0 0; font-size: 12px;
+  color: var(--text-secondary-color); /* Use secondary text color */
+  line-height: 1.5; transition: color 0.3s ease;
+}
+
+.divider {
+  display: flex; align-items: center; text-align: center; margin: 24px 0;
+  color: var(--text-secondary-color); /* Use secondary text color */
+  font-size: 13px; font-weight: 500; transition: color 0.3s ease;
+}
+.divider::before, .divider::after {
+  content: ""; flex: 1; border-bottom: 1px solid var(--border-color); /* Use border variable */
+  transition: border-color 0.3s ease;
+}
+.divider span { padding: 0 16px; }
+
+/* Form Styles */
+.form-group { margin-bottom: 20px; }
+
+.form-group label {
+  display: block; font-size: 14px; font-weight: 600;
+  color: var(--text-secondary-color); /* Use secondary text color */
+  margin-bottom: 8px; transition: color 0.3s ease;
+}
+
+.form-input, .form-textarea, .form-select {
+  width: 100%; padding: 12px 16px;
+  border: 1px solid var(--border-color); /* Use border variable */
+  border-radius: 10px; font-size: 14px;
+  color: var(--text-color); /* Use text color */
+  background-color: var(--bg-color); /* Use main background */
+  transition: all 0.3s ease; font-family: inherit;
+}
+
+.form-input:focus, .form-textarea:focus, .form-select:focus {
+  outline: none; border-color: var(--primary-color);
+  background-color: var(--bg-secondary-color); /* Use secondary background */
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+}
+
+.form-input::placeholder, .form-textarea::placeholder {
+  color: var(--text-secondary-color); /* Use secondary text color */
+  transition: color 0.3s ease;
+}
+
+.form-textarea { resize: vertical; line-height: 1.6; }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+/* Tags Input */
+.tags-input-wrapper {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--bg-color); /* Use main background */
+  padding: 8px 12px; border-radius: 10px;
+  border: 1px solid var(--border-color); /* Use border variable */
+  transition: all 0.3s ease;
+}
+.tags-input-wrapper:focus-within {
+  border-color: var(--primary-color);
+  background-color: var(--bg-secondary-color); /* Use secondary background */
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+}
+
+.tag-icon { color: var(--text-secondary-color); font-size: 16px; }
+
+.tag-input {
+  flex: 1; border: none; outline: none; background: transparent; font-size: 14px;
+  color: var(--text-color); font-family: inherit;
+}
+.tag-input::placeholder { color: var(--text-secondary-color); }
+
+.add-tag-btn {
+  padding: 6px 14px;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: white; border: none; border-radius: 6px; font-size: 12px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s; font-family: inherit;
+}
+.add-tag-btn:hover {
+  transform: scale(1.05); box-shadow: 0 2px 8px var(--shadow-color);
+}
+
+.tags-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+
+.tag-item {
+  display: flex; align-items: center; gap: 6px; padding: 6px 12px;
+  /* Use subtle background and primary text */
+  background-color: var(--bg-color);
+  color: var(--primary-color);
+  border-radius: 8px; font-size: 12px; font-weight: 600;
+  border: 1px solid var(--primary-color); /* Use primary color border */
+  transition: all 0.3s ease;
+}
+
+.remove-tag-btn {
+  background: none; border: none; padding: 2px; cursor: pointer;
+  color: var(--primary-color); /* Match tag text color */
+  display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+  font-size: 18px;
+}
+.remove-tag-btn:hover {
+  color: #ef4444; /* Semantic red on hover */
+  transform: scale(1.2);
+}
+
+/* Modal Footer */
+.modal-footer {
+  display: flex; justify-content: flex-end; gap: 12px; padding: 20px 24px;
+  border-top: 1px solid var(--border-color); /* Use border variable */
+  transition: border-color 0.3s ease;
+}
+
+/* Use styles from Profile.css for consistency */
+.btn-cancel {
+  padding: 10px 20px; background: var(--bg-color); color: var(--text-secondary-color);
+  border: 1px solid var(--border-color); border-radius: 10px; font-size: 14px;
+  font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: inherit;
+}
+.btn-cancel:hover {
+  background: var(--bg-secondary-color); border-color: var(--text-secondary-color);
+  transform: translateY(-2px);
+}
+
+.btn-create, .btn-save {
+  padding: 10px 24px;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: white; border: none; border-radius: 10px; font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s; font-family: inherit;
+}
+.btn-create:hover:not(:disabled), .btn-save:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+  transform: translateY(-2px); box-shadow: 0 4px 12px var(--shadow-color);
+}
+.btn-create:disabled, .btn-save:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .taskboard-wrapper { padding: 20px; }
+  .task-board { gap: 16px; }
+  .task-column { min-width: 280px; width: 300px; height: auto; max-height: 70vh; /* Adjust height for smaller screens */ }
+}
+
+@media (max-width: 768px) {
+  .taskboard-wrapper { padding: 16px; }
+  .taskboard-main-title { font-size: 22px; }
+  .taskboard-search-bar { max-width: 100%; }
+  .task-board { gap: 12px; }
+  .task-column { min-width: 260px; width: 280px; height: auto; max-height: 65vh; }
+  .form-row { grid-template-columns: 1fr; }
+  .natural-input-wrapper { flex-direction: column; align-items: stretch; }
+  .quick-create-btn { justify-content: center; }
+  .modal-content { max-height: 85vh; } /* Adjust modal height */
+}
+
+/* Thay thế rule .add-task-btn-in-column cũ trong TaskBoard.css */
+
+.add-task-btn-in-column {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: rgba(4, 120, 87, 0.05); /* Màu xanh neon nhạt nền */
+    border: 1px dashed #059669; /* Border xanh neon */
+    color: #059669; /* Chữ màu xanh neon */
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    display: flex; /* Căn giữa icon và text */
+    align-items: center;
+    justify-content: center;
+    gap: 6px; /* Khoảng cách giữa icon và text */
+}
+.add-task-btn-in-column:hover {
+    background-color: rgba(4, 120, 87, 0.1); /* Đậm hơn khi hover */
+    border-style: solid;
+    color: #047857; /* Đậm hơn khi hover */
+}
+
+/* Style cho dark mode */
+body.dark .add-task-btn-in-column {
+    background-color: rgba(52, 211, 153, 0.1); /* Nền xanh neon sáng hơn cho dark */
+    border-color: #34d399; /* Border xanh neon sáng hơn */
+    color: #34d399; /* Chữ xanh neon sáng hơn */
+}
+body.dark .add-task-btn-in-column:hover {
+    background-color: rgba(52, 211, 153, 0.2);
+    color: #6ee7b7;
+}
+/* Thêm vào cuối TaskBoard.css */
+
+/* Style cho task card KHI ĐANG ĐƯỢC KÉO */
+.draggable-task-wrapper.dragging .task-card { /* Target .task-card bên trong */
+  background-color: var(--primary-color); /* Nền màu chính */
+  color: white; /* Chữ trắng */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); /* Đổ bóng mạnh */
+  transform: rotate(3deg) scale(1.03); /* Nghiêng và phóng to nhẹ */
+  border-color: var(--secondary-color);
+}
+/* Style chữ và icon bên trong card khi đang kéo */
+.draggable-task-wrapper.dragging .task-card .task-title,
+.draggable-task-wrapper.dragging .task-card .task-description,
+.draggable-task-wrapper.dragging .task-card .task-date,
+.draggable-task-wrapper.dragging .task-card .task-icon {
+    color: white !important; /* Ép màu chữ thành trắng */
+    opacity: 0.9;
+}
+.draggable-task-wrapper.dragging .task-card .meta-icon,
+.draggable-task-wrapper.dragging .task-card .priority-flag {
+    filter: brightness(0) invert(1); /* Đảo màu icon thành trắng */
+}
+
+
+/* Style cho cột KHI CÓ TASK ĐƯỢC KÉO QUA */
+.task-column.dragging-over {
+  background-color: var(--bg-color); /* Nền cột sáng hơn chút */
+  border-style: dashed; /* Viền nét đứt */
+  border-color: var(--primary-color);
+}
+.draggable-task-wrapper.dragging {
+  background-color: var(--primary-color-light, #e0e7ff);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transform: rotate(3deg); 
+}
+
+.task-column.dragging-over {
+  background-color: var(--bg-color); 
+  border-style: dashed;
+}
+
+.task-card.overlay-style { 
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transform: scale(1.03);
+  cursor: grabbing;
+}
+
+
+.draggable-task-wrapper {
+  position: relative; 
+  transition: opacity 0.2s ease; 
+}
+.draggable-task-wrapper:hover { 
+     z-index: 10;
+}
+
+
+
+.task-column.dragging-over {
+  background-color: var(--bg-color);
+   border-style: dashed; 
+}
+.chat-section {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+.chat-section h4 {
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+
+.chat-messages {
+    height: 200px; /* Or max-height */
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: var(--bg-color);
+}
+.chat-message {
+    margin-bottom: 8px;
+    line-height: 1.4;
+    font-size: 0.9em;
+    color: var(--text-secondary-color);
+}
+.chat-message strong {
+    color: var(--text-color);
+    font-weight: 600;
+}
+/* Style messages sent by the current user differently */
+.chat-message.my-message {
+    /* Example: text-align: right; or different background */
+    color: var(--primary-color);
+}
+.chat-message.my-message strong {
+    color: var(--primary-color);
+}
+
+
+.chat-input-area {
+    display: flex;
+    gap: 10px;
+}
+.chat-input-area input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+.chat-input-area button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+.chat-input-area button:disabled {
+    background-color: #ccc; cursor: not-allowed;
+}
+body.dark .chat-input-area button:disabled { background-color: #555; }
+.chat-input-area button:hover:not(:disabled) {
+    background-color: var(--secondary-color);
+}
+
+

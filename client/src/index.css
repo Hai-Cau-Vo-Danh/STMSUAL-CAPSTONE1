@@ -1,0 +1,78 @@
+
+/* --- BIẾN MÀU CHO LIGHT MODE (MẶC ĐỊNH) --- */
+:root {
+  --bg-color: #f8f9fa;       /* Màu nền chính */
+  --bg-secondary-color: #ffffff; /* Màu nền phụ (card, sidebar, modal) */
+  --text-color: #212529;      /* Màu chữ chính */
+  --text-secondary-color: #6c757d; /* Màu chữ phụ */
+  --border-color: #dee2e6;     /* Màu viền */
+  --primary-color: #667eea;   /* Màu nhấn (gradient đầu) */
+  --secondary-color: #764ba2; /* Màu nhấn (gradient cuối) */
+  --shadow-color: rgba(0, 0, 0, 0.08); /* Bóng đổ nhạt hơn */
+  --header-bg: #1e1b4b;       /* Màu nền tối cho header light mode */
+  --header-text: #e0e0e0;     /* Màu chữ sáng cho header light mode */
+}
+
+/* --- BIẾN MÀU CHO DARK MODE --- */
+/* Khi body có class="dark" */
+body.dark {
+  --bg-color: #121826;         /* Nền chính: Tối hơn chút */
+  --bg-secondary-color: #1f2a3e; /* Nền phụ (card): Sáng hơn nền chính */
+  --text-color: #e5e7eb;        /* Chữ chính: Sáng hơn chút */
+  --text-secondary-color: #9ca3af; /* Chữ phụ: Sáng hơn chút */
+  --border-color: #374151;       /* Viền: Sáng hơn nền phụ */
+  --primary-color: #8a9ef5;     /* Màu nhấn sáng hơn cho dark */
+  --secondary-color: #9b72c7;   /* Màu nhấn sáng hơn cho dark */
+  --shadow-color: rgba(0, 0, 0, 0.3); /* Bóng đổ đậm hơn */
+  --header-bg: #111827;         /* Header: Màu tối riêng cho dark mode */
+  --header-text: #e5e7eb;       /* Chữ Header */
+}
+
+/* --- CSS RESETS --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* --- ÁP DỤNG BIẾN MÀU & FONT --- */
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease; /* Hiệu ứng chuyển màu mượt */
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+/* Cải thiện scrollbar chung */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent; /* Hoặc var(--bg-color) */
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--text-secondary-color);
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+  opacity: 0.5;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--text-color);
+  opacity: 0.8;
+}
+body { /* Cho Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: var(--text-secondary-color) transparent;
+}

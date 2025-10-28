@@ -1,0 +1,290 @@
+.task-card {
+  background: var(--bg-secondary-color); /* Use secondary background */
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 12px; /* Keep margin */
+  box-shadow: 0 2px 8px var(--shadow-color); /* Use shadow variable */
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 1px solid var(--border-color); /* Use border variable */
+  position: relative;
+  z-index: 1;
+}
+
+.task-card:hover {
+  box-shadow: 0 8px 20px var(--shadow-color); /* Use shadow variable */
+  border-color: var(--primary-color); /* Use primary color */
+  transform: translateY(-2px);
+  z-index: 10; /* Keep z-index for hover */
+  background-color: var(--bg-color); /* Slightly different background on hover */
+}
+
+.task-header {
+  margin-bottom: 12px;
+}
+
+.task-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-color); /* Use text color */
+  margin: 0 0 10px 0;
+  line-height: 1.4;
+  transition: color 0.3s ease;
+}
+.task-card:hover .task-title {
+    color: var(--primary-color); /* Highlight title on hover */
+}
+
+.task-assignee {
+  margin-bottom: 10px;
+}
+
+.assignee-badge {
+  display: inline-block;
+  padding: 5px 12px;
+  /* Keep accent gradient for assignee */
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: white; /* Keep white text */
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: 0 2px 8px var(--shadow-color); /* Use shadow variable */
+}
+
+.task-tags-display {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.task-tag-badge {
+  padding: 3px 8px;
+  /* Use subtle background and accent border/text */
+  background-color: var(--bg-color);
+  color: var(--secondary-color); /* Use secondary color for tag text */
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  border: 1px solid var(--secondary-color); /* Use secondary color for border */
+  transition: all 0.3s ease;
+}
+
+.task-description {
+  font-size: 12px;
+  color: var(--text-secondary-color); /* Use secondary text color */
+  line-height: 1.6;
+  margin: 0 0 12px 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3; /* Standard property */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* max-height: 3.6em; */ /* line-clamp should handle height */
+  transition: color 0.3s ease;
+}
+
+.task-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-color); /* Use border variable */
+  gap: 8px;
+  transition: border-color 0.3s ease;
+}
+
+.task-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.task-icon { /* Might be for comments/attachments count? */
+  font-size: 11px;
+  color: var(--text-secondary-color); /* Use secondary text color */
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.meta-icon { /* The actual icon within .task-icon */
+  width: 12px;
+  height: 12px;
+  min-width: 12px;
+  opacity: 0.7; /* Slightly increased opacity */
+  flex-shrink: 0;
+  color: currentColor; /* Inherit color */
+}
+
+.task-date {
+  font-size: 12px;
+  color: var(--text-secondary-color); /* Use secondary text color */
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.3s ease;
+}
+.task-date svg { /* Ensure icon color matches text */
+    color: currentColor;
+    opacity: 0.7;
+}
+
+
+.task-avatars {
+  display: flex;
+  align-items: center;
+  /* margin-left: auto; */ /* Let flexbox handle spacing */
+}
+
+.avatar {
+  min-width: 24px; max-width: 28px; width: 24px; height: 24px;
+  border-radius: 50%; object-fit: cover;
+  border: 2px solid var(--bg-secondary-color); /* Border matches card background */
+  margin-left: -8px; /* Slightly more overlap */
+  background-color: var(--bg-color); /* Fallback background */
+  flex-shrink: 0;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+.task-card:hover .avatar {
+    border-color: var(--bg-color); /* Border matches hover background */
+}
+
+
+.avatar:first-child {
+  margin-left: 0;
+}
+
+.priority-flag { /* Assume this is for high/medium/low icons */
+  width: 14px; height: 14px; min-width: 14px;
+  object-fit: contain; flex-shrink: 0; margin: 0;
+  /* Color should be set based on priority in the component */
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .task-card { padding: 10px; }
+  .task-title { font-size: 13px; }
+  .task-description { font-size: 11px; }
+}
+
+@media (max-width: 768px) {
+  .task-footer { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .task-avatars { margin-left: 0; margin-top: 5px; /* Add margin when stacked */ }
+}
+/* Thêm vào cuối file TaskCard.css */
+
+/* --- Màu nền Priority --- */
+
+/* Low Priority (Green) */
+.task-card.priority-low {
+  background-color: #f0fdf4; /* Màu xanh lá nhạt */
+  border-left: 4px solid #10b981; /* Thêm viền trái để nhấn mạnh */
+}
+body.dark .task-card.priority-low {
+  background-color: rgba(16, 185, 129, 0.1); /* Xanh lá mờ nền tối */
+  border-left-color: #34d399; /* Xanh lá sáng hơn */
+}
+.task-card.priority-low:hover {
+   background-color: #dcfce7; /* Xanh lá nhạt hơn khi hover */
+}
+body.dark .task-card.priority-low:hover {
+   background-color: rgba(16, 185, 129, 0.2);
+}
+
+/* Medium Priority (Yellow) */
+.task-card.priority-medium {
+  background-color: #fefce8; /* Màu vàng nhạt */
+  border-left: 4px solid #f59e0b; /* Viền vàng */
+}
+body.dark .task-card.priority-medium {
+  background-color: rgba(245, 158, 11, 0.1); /* Vàng mờ nền tối */
+  border-left-color: #fcd34d; /* Vàng sáng hơn */
+}
+.task-card.priority-medium:hover {
+   background-color: #fef9c3; /* Vàng nhạt hơn khi hover */
+}
+body.dark .task-card.priority-medium:hover {
+   background-color: rgba(245, 158, 11, 0.2);
+}
+
+/* High Priority (Red) */
+.task-card.priority-high {
+  background-color: #fef2f2; /* Màu đỏ nhạt */
+  border-left: 4px solid #ef4444; /* Viền đỏ */
+}
+body.dark .task-card.priority-high {
+  background-color: rgba(239, 68, 68, 0.1); /* Đỏ mờ nền tối */
+  border-left-color: #f87171; /* Đỏ sáng hơn */
+}
+.task-card.priority-high:hover {
+   background-color: #fee2e2; /* Đỏ nhạt hơn khi hover */
+}
+body.dark .task-card.priority-high:hover {
+   background-color: rgba(239, 68, 68, 0.2);
+}
+
+/* Bỏ badge assignee nếu muốn vì card đã có màu */
+.task-assignee {
+   /* display: none; */ /* Bỏ comment dòng này nếu muốn ẩn hẳn */
+   margin-bottom: 6px; /* Giảm margin nếu giữ lại */
+}
+/* Style lại badge assignee nếu giữ lại */
+.assignee-badge {
+    background: rgba(0,0,0,0.1); /* Nền mờ */
+    color: var(--text-color); /* Màu chữ chính */
+    padding: 3px 8px;
+    font-size: 11px;
+    box-shadow: none;
+    border: 1px solid var(--border-color);
+}
+body.dark .assignee-badge {
+    background: rgba(255,255,255,0.1);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+}
+
+
+.priority-flag {
+  width: 12px;
+  height: 12px;
+  min-width: 12px;
+}
+.task-meta {
+    align-items: center; 
+}
+.task-edit-btn {
+  background: transparent;
+  border: none; 
+  padding: 6px; 
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+  font-size: 14px; 
+  color: var(--text-secondary-color); 
+  transition: all 0.2s ease;
+  
+ 
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+
+.task-card:hover .task-edit-btn {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.task-edit-btn:hover {
+  background-color: var(--bg-color); /* Nền nhẹ khi hover */
+  color: var(--primary-color); /* Đổi màu icon khi hover */
+  transform: scale(1.1) rotate(30deg); /* Xoay nhẹ khi hover */
+}

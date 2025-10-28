@@ -1,0 +1,73 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* body styles are now primarily in index.css */
+
+/* Layout chính mới (không còn flex ngang ban đầu) */
+.app-layout {
+  display: flex; /* Chỉ cần flex ngang */
+  flex-direction: column; /* Toàn bộ layout xếp dọc */
+  min-height: 100vh;
+}
+
+/* Layout riêng cho login / register / landing (Giữ nguyên) */
+.auth-layout {
+  min-height: 100vh;
+  max-width: 100%;
+}
+
+/* Main content wrapper (chứa Header, Navbar, Content Area) */
+.main-content {
+  flex: 1; /* Chiếm hết không gian còn lại */
+  display: flex;
+  flex-direction: column; /* Header, Navbar, Content Area xếp dọc */
+  overflow: hidden; /* Quan trọng */
+  background-color: var(--bg-color); /* Nền cho main-content */
+  transition: background-color 0.3s ease;
+}
+
+/* Khu vực hiển thị nội dung trang (Dashboard, Profile,...) */
+.content-area {
+  flex: 1; /* Để content chiếm hết phần còn lại dưới Navbar */
+  overflow-y: auto; /* Cho phép cuộn dọc nội dung */
+  padding: 32px 40px; /* Tăng padding */
+  background-color: var(--bg-color); /* Nền giống main-content */
+  transition: background-color 0.3s ease;
+}
+
+/* Placeholder styles (Giữ nguyên) */
+.placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text-secondary-color);
+}
+
+.placeholder h2 {
+  font-size: 32px;
+  margin-bottom: 16px;
+  color: var(--text-color);
+}
+
+.placeholder p {
+  font-size: 16px;
+  color: var(--text-secondary-color);
+}
+
+/* Responsive cho content-area */
+@media (max-width: 992px) { /* Tablet */
+  .content-area {
+    padding: 24px;
+  }
+}
+@media (max-width: 768px) { /* Mobile */
+  .content-area {
+    padding: 16px;
+  }
+}

@@ -1,0 +1,304 @@
+/* --- Pomodoro Container & General --- */
+.pomodoro-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Align content towards top */
+  min-height: calc(100vh - 70px); /* Adjust for header if applicable */
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--text-color);
+  background-color: var(--bg-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  position: relative; /* For positioning settings button */
+}
+
+/* --- Tomato Background & Time Display --- */
+.pomodoro-tomato-bg {
+  width: 300px; /* Adjust size as needed */
+  height: 300px;
+  background-color: #FF6347; /* Tomato color */
+  border-radius: 50%;
+  position: relative;
+  margin-bottom: 15px; /* Space below tomato */
+  box-shadow: inset 0 -10px 20px rgba(0, 0, 0, 0.2), /* Inner shadow bottom */
+              0 10px 20px rgba(0, 0, 0, 0.15);     /* Outer shadow */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* Optional: Add a green stem */
+.pomodoro-tomato-bg::before {
+    content: '';
+    position: absolute;
+    top: -20px; /* Position above */
+    width: 60px;
+    height: 40px;
+    background-color: #2E8B57; /* SeaGreen */
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0; /* Leaf shape */
+    transform: rotate(-10deg);
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+/* Optional: subtle texture */
+.pomodoro-tomato-bg::after {
+     content: '';
+     position: absolute;
+     inset: 5px; /* Slightly inside */
+     border-radius: 50%;
+     background: radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 40%); /* Highlight */
+}
+
+
+.pomodoro-digital-time {
+  background-color: rgba(0, 0, 0, 0.6); /* Dark background for digits */
+  color: #FFD700; /* Gold-like color for digits */
+  padding: 15px 30px;
+  border-radius: 10px;
+  font-family: 'Orbitron', sans-serif; /* Digital-like font (add import if needed) */
+  /* Or use a system monospace font */
+  /* font-family: 'Courier New', Courier, monospace; */
+  font-weight: bold;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  z-index: 1; /* Ensure time is above pseudo-elements */
+}
+
+.pomodoro-digital-time h2 {
+  font-size: 4rem; /* Adjust size */
+  margin: 0;
+  letter-spacing: 5px; /* Space out digits */
+}
+
+.pomodoro-mode-display {
+  font-size: 1.1rem;
+  color: var(--text-secondary-color);
+  font-weight: 600;
+  margin-bottom: 30px; /* Space before controls */
+  text-transform: capitalize;
+}
+
+/* --- Controls --- */
+.pomodoro-controls {
+  display: flex;
+  justify-content: center;
+  gap: 25px; /* More space */
+  align-items: center;
+  margin-bottom: 30px; /* Space before history/settings */
+}
+
+.pomodoro-controls button {
+  border: none;
+  background: #FFF0E1; /* Light creamy color */
+  color: #A0522D; /* Sienna - brownish color */
+  font-size: 24px;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15), inset 0 2px 2px rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(160, 82, 45, 0.3); /* Subtle sienna border */
+}
+
+.pomodoro-controls button:hover:not(:disabled) {
+  background: #FFE4C4; /* Bisque - slightly darker */
+  color: #8B4513; /* SaddleBrown */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), inset 0 2px 2px rgba(255, 255, 255, 0.5);
+}
+.pomodoro-controls button:active:not(:disabled) {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15), inset 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Main button larger */
+.pomodoro-controls button.main-btn {
+  width: 75px;
+  height: 75px;
+  font-size: 36px;
+  background: #FF7F50; /* Coral */
+  color: white;
+  box-shadow: 0 5px 10px rgba(255, 127, 80, 0.4), inset 0 2px 2px rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+.pomodoro-controls button.main-btn:hover:not(:disabled) {
+    background: #FF6347; /* Tomato */
+    box-shadow: 0 7px 14px rgba(255, 99, 71, 0.5), inset 0 2px 2px rgba(255, 255, 255, 0.5);
+}
+
+
+.pomodoro-controls button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: none;
+}
+
+/* --- Settings & History Buttons --- */
+.settings-toggle-btn, .history-toggle-btn {
+    position: absolute;
+    top: 20px;
+    padding: 8px 15px;
+    background-color: var(--bg-secondary-color);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    color: var(--text-secondary-color);
+    font-size: 0.9em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 2px 5px var(--shadow-color);
+}
+.settings-toggle-btn { right: 20px; }
+.history-toggle-btn { left: 20px; }
+
+.settings-toggle-btn:hover, .history-toggle-btn:hover {
+    background-color: var(--bg-color);
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    transform: translateY(-1px);
+}
+
+/* --- Panels (Settings & History common style) --- */
+.panel {
+    background-color: var(--bg-secondary-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+    width: 100%;
+    max-width: 500px; /* Limit width */
+    box-shadow: 0 4px 10px var(--shadow-color);
+}
+.panel h3 {
+    margin: 0 0 15px 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--primary-color);
+}
+.panel ul {
+    list-style: none;
+    padding: 0;
+    max-height: 200px; /* Limit history height */
+    overflow-y: auto;
+}
+.panel li {
+    padding: 6px 0;
+    font-size: 0.9em;
+    color: var(--text-secondary-color);
+    border-bottom: 1px dashed var(--border-color);
+}
+.panel li:last-child { border-bottom: none; }
+
+.error-msg { color: #dc3545; font-weight: bold; }
+
+/* --- Settings Modal --- */
+.settings-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+}
+.settings-modal {
+    /* Uses .panel styles */
+    max-width: 400px; /* Smaller width for settings */
+}
+
+.setting-item {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column; /* Stack label and input */
+    gap: 5px;
+}
+.setting-item label {
+    font-size: 0.9em;
+    font-weight: 500;
+    color: var(--text-secondary-color);
+}
+.setting-item input[type="number"] {
+    padding: 8px 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    width: 80px; /* Smaller width for number inputs */
+}
+.setting-item.checkbox {
+    flex-direction: row; /* Align checkbox and label horizontally */
+    align-items: center;
+    gap: 10px;
+}
+.setting-item.checkbox input[type="checkbox"] {
+    width: auto;
+}
+.setting-item.checkbox label {
+    margin-bottom: 0; /* Remove bottom margin for checkbox label */
+}
+
+.settings-actions {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+.settings-actions button {
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+.settings-actions button:not(.save) { /* Cancel button style */
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary-color);
+}
+.settings-actions button:not(.save):hover {
+    background-color: var(--bg-secondary-color);
+    border-color: var(--text-secondary-color);
+}
+.settings-actions button.save {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+}
+.settings-actions button.save:hover {
+    background-color: var(--secondary-color);
+}
+.history-area {
+    position: absolute; /* Position relative to pomodoro-container */
+    left: 20px;       /* Adjust spacing from left */
+    top: 150px;       /* Adjust spacing from top (below header/controls maybe) */
+    width: 250px;     /* Set a width for the history area */
+    display: flex;
+    flex-direction: column; /* Stack button and panel */
+    align-items: flex-start; /* Align items to the left */
+    z-index: 5; /* Ensure it's above the main timer if needed */
+}
+
+/* Adjust History Toggle Button positioning if needed (it's already absolute) */
+.history-toggle-btn {
+    position: static; /* Remove absolute positioning from button itself */
+    margin-bottom: 10px; /* Add space below button */
+    /* Keep other styles like padding, border, etc. */
+}
+
+/* Ensure History Panel takes appropriate width */
+.pomodoro-history.panel {
+    width: 100%; /* Take full width of its container (.history-area) */
+    max-width: none; /* Override previous max-width */
+    margin-top: 0; /* Remove top margin if set previously */
+}

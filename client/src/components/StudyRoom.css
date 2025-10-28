@@ -1,0 +1,847 @@
+/* --- General Container --- */
+.study-room-container {
+    padding: 0;
+    min-height: calc(100vh - 70px);
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Entry Form Styles (Giữ nguyên) --- */
+.study-room-entry {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: var(--bg-color);
+}
+
+.entry-card {
+    background-color: var(--bg-secondary-color);
+    padding: 30px 40px;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px var(--shadow-color);
+    border: 1px solid var(--border-color);
+    width: 100%;
+    max-width: 480px;
+    transition: all 0.3s ease;
+}
+
+.entry-card h1 {
+    text-align: center;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+    font-size: 1.8rem;
+}
+
+.entry-card>p:first-of-type {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.entry-card h2 {
+    text-align: center;
+    margin-bottom: 10px;
+    color: var(--text-color);
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.entry-subtitle {
+    text-align: center;
+    color: var(--text-secondary-color);
+    margin-bottom: 25px;
+    font-size: 0.95em;
+}
+
+.server-message.entry-message {
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 0.9em;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: rgba(102, 126, 234, 0.1);
+    border-left: 4px solid var(--primary-color);
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+p.server-message.entry-message:containing("Lỗi") {
+    color: #dc3545;
+    background-color: rgba(220, 53, 69, 0.1);
+    border-left-color: #dc3545;
+}
+
+.entry-form-group {
+    margin-bottom: 20px;
+}
+
+.entry-form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-secondary-color);
+}
+
+.entry-input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    font-size: 1rem;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+.entry-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background-color: var(--bg-secondary-color);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+}
+
+.entry-button-group {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.entry-btn {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.entry-btn.join-btn {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.entry-btn.join-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(118, 75, 162, 0.4);
+}
+
+.entry-btn.create-btn {
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary-color);
+}
+
+.entry-btn.create-btn:hover:not(:disabled) {
+    background-color: var(--bg-secondary-color);
+    color: var(--text-color);
+    border-color: var(--text-secondary-color);
+    transform: translateY(-2px);
+}
+
+.entry-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+/* --- Main Room Interface Layout --- */
+.study-room-main-interface {
+    display: flex;
+    flex-grow: 1;
+    background-color: var(--bg-color);
+    overflow: hidden;
+    position: relative;
+}
+
+/* --- Left Panel (Timer, Members) --- */
+.left-panel {
+    width: 300px;
+    flex-shrink: 0;
+    background-color: var(--bg-secondary-color);
+    border-right: 1px solid var(--border-color);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.room-info {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.room-info h2 {
+    font-size: 1.2rem;
+    color: var(--text-color);
+    margin-bottom: 5px;
+}
+
+.room-info p {
+    font-size: 0.9em;
+    font-weight: 500;
+}
+
+
+/* --- Member List Styles (Giữ nguyên) --- */
+.member-list-section.panel {
+    margin-top: 20px;
+    padding: 15px;
+    flex-shrink: 0;
+}
+
+.member-list-section h3 {
+    margin: 0 0 10px 0;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 1rem;
+    color: var(--text-secondary-color);
+}
+
+.member-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.member-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 5px;
+    margin-bottom: 5px;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+}
+
+.member-item:hover {
+    background-color: var(--bg-color);
+}
+
+.member-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8em;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+.member-name {
+    flex-grow: 1;
+    font-size: 0.95em;
+    font-weight: 500;
+    color: var(--text-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.member-item.self .member-name {
+    font-weight: 600;
+}
+
+.mute-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary-color);
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    margin-left: auto;
+    font-size: 1.1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+.mute-btn:hover {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.mute-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* --- Right Panel (Chat) --- */
+.right-panel.chat-panel {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    overflow: hidden;
+    background-color: var(--bg-color);
+}
+
+.chat-panel h3 {
+    margin: 0;
+    padding: 15px 20px;
+    font-size: 1.1rem;
+    color: var(--text-color);
+    border-bottom: 1px solid var(--border-color);
+    flex-shrink: 0;
+    background-color: var(--bg-secondary-color);
+}
+
+/* Chat Messages Area */
+.chat-messages {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 15px 20px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--text-secondary-color) transparent;
+}
+
+.chat-messages::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background-color: var(--text-secondary-color);
+    border-radius: 4px;
+    border: 2px solid var(--bg-color);
+    background-clip: padding-box;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+    background-color: var(--text-color);
+}
+
+/* ========== CSS TINH CHỈNH CHO CHAT BUBBLE ========== */
+.message-item {
+    display: flex;
+    margin-bottom: 15px;
+    gap: 10px;
+    animation: fadeInMessage 0.3s ease;
+}
+
+@keyframes fadeInMessage {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1em;
+    flex-shrink: 0;
+    margin-top: 4px;
+    /* Căn avatar với dòng tên */
+}
+
+.message-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.message-sender {
+    font-weight: 600;
+    font-size: 0.9em;
+    color: var(--text-color);
+    margin-bottom: 3px;
+    display: block;
+}
+
+.message-text {
+    background-color: var(--bg-secondary-color);
+    padding: 10px 14px;
+    border-radius: 12px;
+    /* Bo tròn đều */
+    font-size: 0.95em;
+    color: var(--text-color);
+    line-height: 1.5;
+    word-wrap: break-word;
+    border: 1px solid var(--border-color);
+    display: inline-block;
+    /* Chỉ chiếm độ rộng của text */
+    max-width: 90%;
+    /* Không quá rộng */
+    border-top-left-radius: 4px;
+    /* Bo góc kiểu chat */
+}
+
+.message-time {
+    font-size: 0.75em;
+    color: var(--text-secondary-color);
+    margin-top: 4px;
+    display: block;
+}
+
+/* Tin nhắn của BẠN (Bên phải, giống Mimi Chat) */
+.message-item.my-message {
+    flex-direction: row-reverse;
+    /* Đẩy avatar và content sang 2 bên */
+}
+
+.message-item.my-message .message-content {
+    align-items: flex-end;
+    /* Căn text sang phải */
+}
+
+.message-item.my-message .message-avatar {
+    display: none;
+    /* Ẩn avatar của chính mình, giống hình mimi */
+}
+
+.message-item.my-message .message-text {
+    /* ĐỔI MÀU: Bỏ gradient, dùng màu solid giống hình */
+    background: var(--primary-color);
+    /* Màu tím solid */
+    color: white;
+    border-radius: 12px;
+    border-top-right-radius: 4px;
+    /* Bo góc đối diện */
+    border-top-left-radius: 12px;
+    /* Hoàn lại bo góc */
+    border: none;
+}
+
+/* Tin nhắn HỆ THỐNG (Vào/Rời phòng) */
+.message-item.type-system {
+    justify-content: center;
+    margin: 10px 0;
+}
+
+.system-text {
+    font-size: 0.85em;
+    color: var(--text-secondary-color);
+    font-style: italic;
+    background-color: var(--bg-secondary-color);
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+/* ========== KẾT THÚC CSS TINH CHỈNH ========== */
+
+
+/* Chat Input Area */
+.chat-input-area {
+    display: flex;
+    gap: 10px;
+    padding: 15px 20px;
+    border-top: 1px solid var(--border-color);
+    background-color: var(--bg-secondary-color);
+    flex-shrink: 0;
+}
+
+.chat-input-area input {
+    flex-grow: 1;
+}
+
+.chat-input-area button {
+    flex-shrink: 0;
+}
+
+/* --- Leave Button --- */
+.leave-btn.danger {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    z-index: 10;
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 0.9em;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(220, 53, 69, 0.4);
+    transition: all 0.2s ease;
+}
+
+.leave-btn.danger:hover {
+    background: #c82333;
+    box-shadow: 0 4px 8px rgba(220, 53, 69, 0.5);
+    transform: translateY(-1px);
+}
+
+.leave-btn.danger:active {
+    background: #bd2130;
+    transform: translateY(0);
+}
+
+/* --- Hidden Audio --- */
+.hidden-audio-streams {
+    display: none;
+}
+
+/* --- Responsive (Giữ nguyên) --- */
+@media (max-width: 992px) {
+    .study-room-main-interface {
+        flex-direction: column;
+        height: auto;
+        position: relative;
+    }
+
+    .left-panel {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        max-height: none;
+    }
+
+    .right-panel.chat-panel {
+        height: calc(100vh - 70px - 400px);
+        min-height: 300px;
+    }
+
+    .leave-btn.danger {
+        position: absolute;
+        bottom: 15px;
+        right: 15px;
+        left: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .entry-card {
+        padding: 20px;
+    }
+
+    .left-panel,
+    .right-panel.chat-panel {
+        padding: 15px;
+    }
+
+    .chat-panel h3,
+    .chat-input-area {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .chat-messages {
+        padding: 10px 15px;
+    }
+
+    .pomodoro-circle {
+        width: 160px;
+        height: 160px;
+    }
+
+    .pomodoro-time h2 {
+        font-size: 2.2rem;
+    }
+
+    .timer-controls {
+        gap: 8px;
+    }
+}
+
+/* ===== DÁN VÀO CUỐI FILE StudyRoom.css ===== */
+
+.history-panel-container.panel {
+    margin-top: 20px;
+    padding: 15px;
+    flex-shrink: 0;
+    /* Ngăn nó co lại */
+}
+
+.history-toggle-btn-room {
+    background: none;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary-color);
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    width: 100%;
+    transition: all 0.2s ease;
+    font-size: 0.9em;
+}
+
+.history-toggle-btn-room:hover {
+    background-color: var(--bg-color);
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.pomodoro-history-room {
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border-color);
+}
+
+.pomodoro-history-room ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 150px;
+    /* Giới hạn chiều cao */
+    overflow-y: auto;
+    font-size: 0.9em;
+
+    /* Thêm thanh cuộn cho đẹp */
+    scrollbar-width: thin;
+    scrollbar-color: var(--text-secondary-color) transparent;
+}
+
+.pomodoro-history-room ul::-webkit-scrollbar {
+    width: 6px;
+}
+
+.pomodoro-history-room ul::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.pomodoro-history-room ul::-webkit-scrollbar-thumb {
+    background-color: var(--text-secondary-color);
+    border-radius: 3px;
+}
+
+.pomodoro-history-room li {
+    padding: 5px 2px;
+    color: var(--text-secondary-color);
+    border-bottom: 1px dashed var(--border-color);
+}
+
+.pomodoro-history-room li:last-child {
+    border-bottom: none;
+}
+
+.pomodoro-history-room .error-msg,
+.pomodoro-history-room p {
+    color: var(--text-secondary-color);
+    font-size: 0.9em;
+    font-style: italic;
+}
+
+.pomodoro-history-room .error-msg {
+    color: #dc3545;
+    font-style: normal;
+    font-weight: 500;
+}
+
+/* ===== DÁN VÀO CUỐI FILE StudyRoom.css ===== */
+
+/* Wrapper mới cho timer */
+.pomodoro-display-wrapper {
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* --- Tomato Background & Time Display (Copy từ Pomodoro.css) --- */
+.pomodoro-tomato-bg {
+    width: 220px;
+    /* Làm nhỏ hơn 1 chút cho left-panel */
+    height: 220px;
+    background-color: #FF6347;
+    /* Tomato color */
+    border-radius: 50%;
+    position: relative;
+    margin-bottom: 15px;
+    /* Space below tomato */
+    box-shadow: inset 0 -8px 15px rgba(0, 0, 0, 0.2),
+        /* Inner shadow bottom */
+        0 8px 15px rgba(0, 0, 0, 0.15);
+    /* Outer shadow */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Cuống lá */
+.pomodoro-tomato-bg::before {
+    content: '';
+    position: absolute;
+    top: -15px;
+    /* Position above */
+    width: 50px;
+    height: 30px;
+    background-color: #2E8B57;
+    /* SeaGreen */
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    /* Leaf shape */
+    transform: rotate(-10deg);
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Ánh sáng */
+.pomodoro-tomato-bg::after {
+    content: '';
+    position: absolute;
+    inset: 5px;
+    /* Slightly inside */
+    border-radius: 50%;
+    background: radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 40%);
+    /* Highlight */
+}
+
+/* Đồng hồ điện tử */
+.pomodoro-digital-time {
+    background-color: rgba(0, 0, 0, 0.6);
+    /* Dark background for digits */
+    color: #FFD700;
+    /* Gold-like color for digits */
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-family: 'Courier New', Courier, monospace;
+    /* Dùng font monospace an toàn */
+    font-weight: bold;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    z-index: 1;
+    /* Nằm trên cuống/ánh sáng */
+}
+
+.pomodoro-digital-time h2 {
+    font-size: 3rem;
+    /* Làm nhỏ hơn 1 chút */
+    margin: 0;
+    letter-spacing: 4px;
+    /* Space out digits */
+}
+
+.pomodoro-mode-display {
+    font-size: 1rem;
+    color: var(--text-secondary-color);
+    font-weight: 600;
+    margin-bottom: 25px;
+    /* Space before controls */
+    text-transform: capitalize;
+}
+
+/* --- Controls (Copy từ Pomodoro.css) --- */
+.pomodoro-controls {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    /* Space */
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.pomodoro-controls button {
+    border: none;
+    background: #FFF0E1;
+    /* Light creamy color */
+    color: #A0522D;
+    /* Sienna - brownish color */
+    font-size: 20px;
+    /* Nhỏ hơn 1 chút */
+    border-radius: 50%;
+    width: 50px;
+    /* Nhỏ hơn 1 chút */
+    height: 50px;
+    /* Nhỏ hơn 1 chút */
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15), inset 0 2px 2px rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(160, 82, 45, 0.3);
+    /* Subtle sienna border */
+}
+
+.pomodoro-controls button.side-btn {
+    /* Đổi tên class cho nút phụ */
+    /* Giữ nguyên style trên */
+}
+
+.pomodoro-controls button:hover:not(:disabled) {
+    background: #FFE4C4;
+    /* Bisque - slightly darker */
+    color: #8B4513;
+    /* SaddleBrown */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), inset 0 2px 2px rgba(255, 255, 255, 0.5);
+}
+
+.pomodoro-controls button:active:not(:disabled) {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15), inset 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+/* Main button larger */
+.pomodoro-controls button.main-btn {
+    width: 65px;
+    /* Nhỏ hơn 1 chút */
+    height: 65px;
+    /* Nhỏ hơn 1 chút */
+    font-size: 30px;
+    /* Nhỏ hơn 1 chút */
+    background: #FF7F50;
+    /* Coral */
+    color: white;
+    box-shadow: 0 5px 10px rgba(255, 127, 80, 0.4), inset 0 2px 2px rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.pomodoro-controls button.main-btn:hover:not(:disabled) {
+    background: #FF6347;
+    /* Tomato */
+    box-shadow: 0 7px 14px rgba(255, 99, 71, 0.5), inset 0 2px 2px rgba(255, 255, 255, 0.5);
+}
+
+.pomodoro-controls button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: none;
+}
+/* ===== DÁN VÀO CUỐI FILE StudyRoom.css ===== */
+
+/* --- CSS cho Avatar thật --- */
+
+.member-avatar {
+    /* (Giữ nguyên các style cũ) */
+    overflow: hidden; /* Ẩn các phần thừa của ảnh */
+    border: 1px solid var(--border-color); /* Thêm viền nhẹ */
+}
+.member-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Đảm bảo ảnh lấp đầy vòng tròn */
+}
+
+.message-avatar {
+    /* (Giữ nguyên các style cũ) */
+    overflow: hidden; /* Ẩn các phần thừa của ảnh */
+    border: 1px solid var(--border-color);
+}
+.message-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Ẩn avatar của chính mình trong khung chat (vẫn giữ) */
+.message-item.my-message .message-avatar {
+     display: none; 
+}

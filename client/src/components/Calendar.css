@@ -1,0 +1,374 @@
+/* === FINAL CLEAN VERSION: Calendar.css === */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap'); /* Using Inter font */
+
+/* --- Calendar Content Area (Wrapper inside Dashboard) --- */
+.calendar-content {
+    flex: 1; 
+    background-color: #ffffff;
+    overflow: hidden; 
+    display: flex;
+    position: relative; 
+    height: 100%; 
+    font-family: 'Inter', system-ui, sans-serif; /* Apply Inter font */
+}
+.loading-text, .error-text { /* Keep loading/error messages */
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    color: #adb5bd; z-index: 10; font-size: 1rem;
+    background: rgba(255,255,255,0.8); padding: 10px 15px; border-radius: 6px;
+    text-align: center;
+}
+.error-text { color: #dc3545; background: rgba(253, 237, 237, 0.9); border: 1px solid #f5c6cb; }
+
+/* --- React Big Calendar Base --- */
+.rbc-calendar { width: 100%; height: 100% !important; color: #333; } /* Base text color */
+.rbc-toolbar { display: none !important; } /* Hide default toolbar */
+
+/* --- Time Gutter (Hours on the left) --- */
+.rbc-time-gutter { 
+    background-color: #ffffff; 
+    border: none; 
+    width: 65px; /* Adjust width */
+    flex-shrink: 0;
+}
+.rbc-time-header-gutter { /* The small box above the time gutter */
+    border: none !important;
+    background-color: #ffffff;
+    border-bottom: 1px solid #f0f0f0 !important; /* Lighter border */
+}
+.rbc-time-gutter .rbc-time-slot { 
+    border: none; 
+    height: 4em; /* Match grid slot height */
+}
+.rbc-time-gutter .rbc-label { /* Styling for 09:00, 10:00 etc. */
+    text-align: center; 
+    font-size: 0.7rem; 
+    color: #aaa; /* Lighter grey */
+    padding: 0 5px; 
+    position: relative; 
+    top: -0.5em; /* Nudge text up */
+}
+/* Hide the very first hour label if needed (often looks cleaner) */
+.rbc-time-gutter .rbc-timeslot-group:first-child .rbc-time-slot .rbc-label { 
+    /* display: none; */ /* Uncomment if you want to hide the first label */
+}
+
+
+/* === HEADER ROW (SUN, MON...) STYLING === */
+
+/* 1. Header Row Container */
+.rbc-time-header-content {
+    border: none !important;
+    overflow-y: scroll; /* Force scrollbar space for alignment */
+    /* Hide the scrollbar visually */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+}
+.rbc-time-header-content::-webkit-scrollbar { 
+    display: none; /* Chrome/Safari/Opera */
+    width: 0;
+    height: 0;
+}
+
+/* 2. Individual Header Cells (Wrapper for MON 13) */
+.rbc-time-header-content .rbc-header {
+    border: none;
+    border-bottom: 1px solid #f0f0f0; /* Lighter bottom border */
+    text-align: center; 
+    padding: 0; /* Remove padding, use flexbox in child */
+    height: 60px; /* Set a fixed height */
+    display: flex; /* Use flexbox to center content */
+    align-items: center;
+    justify-content: center;
+}
+/* Ensure no right border between headers */
+.rbc-time-header-cell {
+     border-right: none !important; 
+}
+
+/* 3. Custom Header Component (The actual MON 13 content) */
+.custom-week-header {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;    
+    gap: 1px;               
+    padding: 10px 0; /* Add some internal padding */
+}
+.custom-week-header .day-name { /* MON, TUE */
+    font-size: 0.7rem;
+    color: #999; /* Medium grey */
+    text-transform: uppercase;
+    font-weight: 500; 
+    line-height: 1.1; 
+}
+.custom-week-header .day-number { /* 13, 14 */
+    font-size: 1.1rem; 
+    color: #333; /* Dark grey */
+    font-weight: 600; 
+    line-height: 1.1;
+    margin-top: 2px; /* Small space */
+}
+/* Style for 'Today' */
+.rbc-time-header-cell.rbc-today .custom-week-header .day-name { 
+    color: #3d8bfd; /* Blue color for today's name */
+}
+.rbc-time-header-cell.rbc-today .custom-week-header .day-number { 
+    color: #ffffff; /* White number */
+    background-color: #3d8bfd; /* Blue background circle */
+    border-radius: 50%;
+    width: 26px; /* Adjust size of circle */
+    height: 26px;
+    line-height: 26px; /* Center text vertically */
+    display: inline-block; /* Needed for background circle */
+    text-align: center;
+}
+
+/* === END HEADER STYLING === */
+
+
+/* --- TIME GRID CONTENT (Events Area) --- */
+.rbc-time-content {
+    border: none;
+    /* Horizontal grid lines */
+    background-image: linear-gradient(to bottom, #f0f0f0 1px, transparent 1px); 
+    background-size: 100% 4em; /* Match time slot height */
+    border-left: none; /* Remove left border */
+    overflow-y: auto; /* Real scrollbar */
+    scrollbar-width: thin; /* Make scrollbar thinner */
+    scrollbar-color: #d1d5db #f9fafb; /* Scrollbar colors */
+    margin-top: 0 !important; /* Ensure no gap */
+}
+.rbc-time-content::-webkit-scrollbar { width: 6px; } /* Thinner scrollbar */
+.rbc-time-content::-webkit-scrollbar-track { background: #f9fafb; }
+.rbc-time-content::-webkit-scrollbar-thumb { background-color: #d1d5db; border-radius: 3px; }
+.rbc-time-content > * { border: none; }
+.rbc-time-content > .rbc-time-gutter { border: none; }
+
+/* Vertical Day Columns */
+.rbc-day-slot { 
+    position: relative; 
+    border-right: 1px solid #f0f0f0 !important; /* Lighter vertical lines */
+} 
+.rbc-day-slot:last-child { border-right: none !important; } 
+.rbc-day-slot .rbc-timeslot-group { border-bottom: none; } /* Remove library's internal borders */
+.rbc-day-slot .rbc-time-slot { border: none; height: 4em; } /* Set slot height */
+
+/* Background for Today column */
+.rbc-day-slot.rbc-today { background-color: #fcfdff; } 
+/* Background when selecting time */
+.rbc-day-slot.rbc-selected { background-color: rgba(61, 139, 253, 0.1); } 
+
+/* Current Time Indicator Line */
+.rbc-now-indicator { border: none; height: 1px; background-color: #ef4444; z-index: 3; }
+.rbc-now-indicator::before { display: none; } /* Remove the dot */
+
+
+/* === EVENT CARD STYLING === */
+.rbc-event {
+    background-color: transparent !important; 
+    border: none !important; 
+    padding: 0 4px 2px 4px; /* Adjust spacing */
+    border-radius: 4px; 
+    z-index: 4; 
+    outline: none; 
+    cursor: pointer;
+    box-shadow: none !important; 
+}
+.rbc-event:focus { box-shadow: none !important; }
+/* Remove default selected style */
+.rbc-event.rbc-selected { background-color: transparent !important; }
+
+/* Apply styles directly to rbc-event */
+.rbc-event {
+    padding: 5px 8px; /* Inner padding */
+    border-radius: 4px;
+    height: 100%; 
+    display: flex; 
+    flex-direction: column;
+    overflow: hidden; 
+    color: #4B5563; /* Default dark grey text */
+    border: 1px solid transparent; /* Base border */
+    position: relative; /* For the left border */
+}
+/* Add the colored left border */
+.rbc-event::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background-color: var(--event-color, #a8b3cf); /* Default border color */
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+/* Event Time */
+.rbc-event-label { 
+    font-size: 0.7em;
+    font-weight: 500;
+    margin-bottom: 1px;
+    color: var(--event-text-color, #6B7280); /* Use variable for text color */
+}
+
+/* Event Title */
+.rbc-event-content { 
+    font-size: 0.8rem;
+    font-weight: 500;
+    white-space: normal;
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--event-text-color-bold, #1F2937); /* Use variable for title color */
+    flex-grow: 1;
+}
+
+/* --- Event Colors (Applied directly to .rbc-event using CSS variables) --- */
+/* Green */
+.rbc-event.event-green { 
+    background-color: #f0fdf4; 
+    border-color: #bbf7d0;
+    --event-color: #22c55e;
+    --event-text-color: #16a34a;
+    --event-text-color-bold: #15803d;
+}
+/* Purple */
+.rbc-event.event-purple { 
+    background-color: #faf5ff; 
+    border-color: #e9d5ff;
+    --event-color: #a855f7;
+    --event-text-color: #9333ea;
+    --event-text-color-bold: #7e22ce;
+}
+/* Blue (Default) */
+.rbc-event.event-default, .rbc-event.event-blue { 
+    background-color: #eff6ff; 
+    border-color: #bfdbfe;
+    --event-color: #3b82f6;
+    --event-text-color: #2563eb;
+    --event-text-color-bold: #1d4ed8;
+}
+/* Orange */
+.rbc-event.event-orange { 
+    background-color: #fff7ed; 
+    border-color: #fed7aa;
+    --event-color: #f97316;
+    --event-text-color: #ea580c;
+    --event-text-color-bold: #c2410c;
+}
+/* Yellow */
+.rbc-event.event-yellow { 
+    background-color: #fefce8; 
+    border-color: #fef08a;
+    --event-color: #eab308;
+    --event-text-color: #ca8a04;
+    --event-text-color-bold: #a16207;
+}
+/* Pink */
+.rbc-event.event-pink { 
+    background-color: #fdf2f8; 
+    border-color: #fbcfe8;
+    --event-color: #ec4899;
+    --event-text-color: #db2777;
+    --event-text-color-bold: #be185d;
+}
+
+
+/* --- Month View Styles (Simplified, keep basic structure) --- */
+.rbc-month-view { border: none; }
+.rbc-month-view .rbc-header {
+    border: none; border-bottom: 1px solid #eee; background-color: #ffffff;
+    padding: 10px 5px; font-size: 0.8rem; color: #aaa; text-transform: uppercase; text-align: center;
+}
+.rbc-month-row { border: none; }
+.rbc-day-bg { border-right: 1px solid #f0f0f0; border-top: 1px solid #f0f0f0; }
+.rbc-day-bg:last-child { border-right: none; }
+.rbc-month-row + .rbc-month-row { border-top: none; }
+.rbc-date-cell { text-align: right; padding: 4px 8px; font-size: 0.8rem; color: #555; }
+.rbc-date-cell.rbc-off-range { color: #ccc; }
+.rbc-date-cell.rbc-now {
+    font-weight: 700; color: #fff; background-color: #3d8bfd;
+    width: 20px; height: 20px; line-height: 20px; border-radius: 50%;
+    margin: 0; padding: 0; display: inline-block; text-align: center;
+}
+.rbc-month-view .rbc-today { background-color: #f7f8fc; }
+.rbc-month-view .rbc-event { /* Simple colored dot for month view */
+    border: none; padding: 0; border-radius: 50%; font-size: 0.75rem;
+    margin-top: 2px; text-align: left; opacity: 0.9; cursor: pointer; color: white;
+    height: 6px; width: 100%; display: block;
+}
+.rbc-month-view .rbc-event.event-green { background-color: #22c55e; }
+.rbc-month-view .rbc-event.event-purple { background-color: #a855f7; }
+.rbc-month-view .rbc-event.event-default { background-color: #3b82f6; }
+.rbc-month-view .rbc-event.event-orange { background-color: #f97316; }
+.rbc-month-view .rbc-row-segment { padding: 0 4px; }
+.rbc-show-more { color: #3b82f6; font-size: 0.75rem; margin-top: 3px; font-weight: 500; cursor: pointer; text-align: center; }
+.rbc-show-more:hover { color: #2563eb; }
+.rbc-overlay { background-color: #ffffff; border: 1px solid #dee2e6; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); border-radius: 8px; z-index: 1001; padding: 5px; }
+.rbc-overlay-header { border-bottom: 1px solid #dee2e6; padding: 8px 10px; font-weight: 600; color: #333; font-size: 0.9rem; }
+.rbc-overlay .rbc-event { /* Show slightly more detail in overlay */
+    margin: 5px 0; padding: 3px 6px; border: none; background: transparent; font-size: 0.8rem;
+    border-radius: 4px; color: white;
+}
+.rbc-overlay .rbc-event.event-green { background-color: #33a774; }
+.rbc-overlay .rbc-event.event-purple { background-color: #bd10e0; }
+.rbc-overlay .rbc-event.event-default { background-color: #4a90e2; }
+.rbc-overlay .rbc-event.event-orange { background-color: #f5a623; }
+
+/* --- Event Modal CSS (Keep as is) --- */
+/* (The existing .event-modal-overlay, .event-modal-content, etc. styles remain unchanged) */
+.event-modal-overlay {
+    position: fixed; inset: 0; background-color: rgba(33, 37, 41, 0.6);
+    display: flex; align-items: center; justify-content: center; z-index: 1050; padding: 20px;
+}
+.event-modal-content {
+    background-color: var(--bg-secondary-color, #ffffff); border-radius: 12px; padding: 25px 30px;
+    width: 100%; max-width: 500px; box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    border: 1px solid var(--border-color, #dee2e6); animation: fadeInModal 0.3s ease-out;
+}
+@keyframes fadeInModal { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+.event-modal-content h2 {
+    margin: 0 0 20px 0; padding-bottom: 15px; border-bottom: 1px solid var(--border-color, #dee2e6);
+    font-size: 1.3rem; font-weight: 600; color: var(--text-color, #212529);
+}
+.event-modal-content .form-group { margin-bottom: 18px; }
+.event-modal-content .time-group { display: flex; gap: 15px; }
+.event-modal-content .time-group > div { flex: 1; }
+.event-modal-content label { display: block; margin-bottom: 6px; font-size: 0.9rem; font-weight: 500; color: var(--text-secondary-color, #6c757d); }
+.event-modal-content input[type="text"],
+.event-modal-content input[type="datetime-local"],
+.event-modal-content textarea,
+.event-modal-content select {
+    width: 100%; padding: 10px 12px; border: 1px solid var(--border-color, #ced4da);
+    border-radius: 6px; font-size: 0.95rem; background-color: var(--bg-color, #ffffff);
+    color: var(--text-color, #212529); transition: border-color 0.2s ease, box-shadow 0.2s ease; box-sizing: border-box;
+    -webkit-appearance: none; -moz-appearance: none; appearance: none;
+}
+.event-modal-content select {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px 12px;
+    padding-right: 2.5rem;
+}
+.event-modal-content input:focus, .event-modal-content textarea:focus, .event-modal-content select:focus {
+    outline: none; border-color: var(--primary-color, #86b7fe);
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+.event-modal-content textarea { resize: vertical; min-height: 80px; }
+.modal-actions {
+    margin-top: 25px; padding-top: 15px; border-top: 1px solid var(--border-color, #dee2e6);
+    display: flex; justify-content: flex-end; gap: 10px;
+}
+.modal-actions button {
+    padding: 8px 18px; border-radius: 6px; border: none; font-size: 0.9rem; font-weight: 500;
+    cursor: pointer; transition: all 0.2s ease;
+}
+.modal-actions button:disabled { opacity: 0.65; cursor: not-allowed; }
+.modal-actions button:not(.save-btn):not(.delete-btn) {
+    background-color: var(--bg-color, #f8f9fa); border: 1px solid var(--border-color, #ced4da); color: var(--text-secondary-color, #6c757d);
+}
+.modal-actions button:not(.save-btn):not(.delete-btn):hover:not(:disabled) { background-color: var(--bg-secondary-color, #e9ecef); }
+.modal-actions .save-btn { background-color: var(--primary-color, #0d6efd); color: white; }
+.modal-actions .save-btn:hover:not(:disabled) { background-color: #0b5ed7; }
+.modal-actions .delete-btn { background-color: #f8d7da; color: #842029; border: 1px solid #f5c2c7; margin-right: auto; }
+.modal-actions .delete-btn:hover:not(:disabled) { background-color: #f1aeb5; border-color: #f1aeb5;}

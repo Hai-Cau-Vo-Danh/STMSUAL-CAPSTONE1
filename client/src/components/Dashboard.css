@@ -1,0 +1,502 @@
+.dashboard {
+  /* Padding được xử lý bởi .content-area trong App.css */
+  /* padding: 32px; */
+  /* background-color: var(--bg-color); */ /* Nền được xử lý bởi .content-area */
+  min-height: 100%; /* Chiếm hết chiều cao của content-area */
+  /* max-width: 1400px; */ /* Bỏ max-width để full */
+  margin: 0 auto;
+  /* transition: background-color 0.3s ease; */ /* Bỏ transition */
+}
+
+/* Header Section */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  padding: 24px;
+  background: var(--bg-secondary-color); /* Use secondary background */
+  border-radius: 16px;
+  box-shadow: 0 4px 12px var(--shadow-color); /* Use shadow variable */
+  border: 1px solid var(--border-color); /* Use border variable */
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; /* Add transitions */
+}
+
+.welcome-section {
+  flex: 1;
+}
+
+.welcome-title {
+  font-size: 28px;
+  font-weight: 700;
+  /* Keep gradient using variables */
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 8px 0;
+}
+
+.welcome-subtitle {
+  font-size: 16px;
+  color: var(--text-secondary-color); /* Use secondary text color */
+  margin: 0;
+  font-weight: 500;
+  transition: color 0.3s ease; /* Add transition */
+}
+
+.date-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  /* Use subtle background or border instead of gradient */
+  background-color: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  color: var(--primary-color); /* Use primary color */
+  font-weight: 600;
+  font-size: 14px;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease; /* Add transitions */
+}
+
+.calendar-icon {
+  font-size: 18px;
+  /* Color inherited */
+}
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); /* Giảm minmax */
+  gap: 24px; /* Tăng gap */
+  margin-bottom: 32px;
+}
+
+.stat-card {
+  background: var(--bg-secondary-color); /* Use secondary background */
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px var(--shadow-color); /* Use shadow variable */
+  border: 1px solid var(--border-color); /* Use border variable */
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Keep top border effect using variables */
+.stat-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  transform: scaleX(0);
+  transform-origin: left; /* Animate from left */
+  transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px); /* Tăng hiệu ứng nâng */
+  box-shadow: 0 10px 25px var(--shadow-color); /* Tăng đổ bóng khi hover */
+  border-color: var(--primary-color); /* Use primary color */
+}
+
+.stat-card:hover::before {
+  transform: scaleX(1);
+}
+
+.stat-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.stat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  transition: all 0.3s ease;
+  /* Semantic colors - keep these */
+}
+.tasks-icon { background: linear-gradient(135deg, #dbeafe 0%, #e0f2fe 100%); color: #0284c7; }
+.streak-icon { background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%); color: #ef4444; }
+.pomodoro-icon { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); color: #f59e0b; }
+.goal-icon { background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%); color: #10b981; }
+
+
+.stat-card:hover .stat-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.stat-label {
+  font-size: 13px; /* Nhỏ hơn chút */
+  color: var(--text-secondary-color); /* Đổi sang màu phụ */
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: color 0.3s ease; /* Add transition */
+}
+
+.stat-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Giảm gap */
+}
+
+.stat-value {
+  font-size: 30px; /* Nhỏ hơn chút */
+  font-weight: 700;
+  color: var(--text-color); /* Use text color */
+  line-height: 1;
+  transition: color 0.3s ease; /* Add transition */
+}
+
+.stat-subtitle {
+  font-size: 13px;
+  color: var(--text-secondary-color); /* Use secondary text color */
+  font-weight: 500;
+  transition: color 0.3s ease; /* Add transition */
+}
+
+/* Progress Bar */
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: var(--bg-color); /* Use main background */
+  border-radius: 10px;
+  overflow: hidden;
+  transition: background-color 0.3s ease; /* Add transition */
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 10px;
+  transition: width 0.5s ease;
+  position: relative;
+}
+
+/* Shimmer effect - Có thể bỏ nếu muốn đơn giản */
+.progress-fill::after {
+  content: "";
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  animation: shimmer 2s infinite;
+}
+body.dark .progress-fill::after { background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent); }
+@keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+
+/* Semantic colors - keep these */
+.tasks-progress { background: linear-gradient(90deg, #38bdf8, #0ea5e9); } /* Sáng hơn */
+.goal-progress { background: linear-gradient(90deg, #34d399, #10b981); } /* Sáng hơn */
+
+/* Streak Indicator */
+.streak-indicator { display: flex; gap: 6px; align-items: center; } /* Giảm gap */
+
+.streak-day {
+  width: 28px; /* Nhỏ hơn */
+  height: 28px;
+  border-radius: 6px; /* Ít bo hơn */
+  background: var(--bg-color); /* Use main background */
+  transition: all 0.3s ease;
+}
+/* Semantic color - keep this */
+.streak-day.active {
+  background: linear-gradient(135deg, #f87171, #ef4444); /* Sáng hơn */
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+  animation: fireGlow 1.5s infinite alternate; /* Nhanh hơn */
+}
+
+@keyframes fireGlow { 0% { transform: scale(1); box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);} 100% { transform: scale(1.05); box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4); } } /* Giảm scale, giảm shadow */
+
+/* Pomodoro Time */
+.pomodoro-time {
+  display: flex; align-items: center; gap: 8px; padding: 6px 10px; /* Giảm padding */
+  /* Semantic color - keep this */
+  background: linear-gradient(135deg, #fef9c3, #fef08a); /* Sáng hơn */
+  border: 1px solid #facc15; /* Thêm border vàng */
+  border-radius: 8px; width: fit-content;
+}
+.flash-icon { color: #f59e0b; font-size: 14px; } /* Nhỏ hơn */
+.pomodoro-time span { color: #a16207; font-weight: 600; font-size: 12px; } /* Đậm hơn */
+
+/* Content Grid */
+.content-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* Tỷ lệ cũ */
+  gap: 24px; /* Tăng gap */
+  margin-bottom: 32px;
+}
+
+.content-card {
+  background: var(--bg-secondary-color); /* Use secondary background */
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px var(--shadow-color); /* Use shadow variable */
+  border: 1px solid var(--border-color); /* Use border variable */
+  transition: all 0.3s ease;
+}
+
+.content-card:hover {
+  box-shadow: 0 8px 20px var(--shadow-color); /* Use shadow variable */
+  border-color: var(--primary-color); /* Use primary color */
+}
+
+.card-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 20px; padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-color); /* Giảm độ dày border */
+  transition: border-color 0.3s ease; /* Add transition */
+}
+
+.card-title {
+  font-size: 18px; font-weight: 600; /* Giảm độ đậm */
+  color: var(--text-color); /* Use text color */
+  margin: 0; display: flex; align-items: center; gap: 10px;
+  transition: color 0.3s ease; /* Add transition */
+}
+
+.title-icon {
+  color: var(--primary-color); /* Use primary color */
+  font-size: 20px;
+  transition: color 0.3s ease; /* Add transition */
+}
+
+.view-all-btn {
+  background: none; border: none;
+  color: var(--primary-color); /* Use primary color */
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  padding: 6px 12px; border-radius: 8px; transition: all 0.3s ease;
+}
+
+.view-all-btn:hover {
+  background-color: var(--bg-color); /* Use main background on hover */
+  color: var(--secondary-color); /* Use secondary color */
+  /* transform: translateX(4px); */ /* Bỏ transform */
+}
+
+/* Tasks List */
+.tasks-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+
+.task-item {
+  display: flex; align-items: center; gap: 12px; padding: 14px;
+  background: var(--bg-color); /* Use main background */
+  border-radius: 12px;
+  border: 1px solid var(--border-color); /* Use border variable */
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.task-item:hover {
+  background-color: var(--bg-secondary-color); /* Use secondary background */
+  border-color: var(--primary-color); /* Use primary color */
+  /* transform: translateX(4px); */ /* Bỏ transform */
+  box-shadow: 0 2px 8px var(--shadow-color); /* Thêm shadow nhẹ */
+}
+
+.task-checkbox {
+  font-size: 20px;
+  color: var(--text-secondary-color); /* Use secondary text color */
+  transition: all 0.3s;
+  cursor: pointer; /* Thêm cursor */
+}
+
+.task-item:hover .task-checkbox {
+  color: var(--primary-color); /* Use primary color */
+  transform: scale(1.1);
+}
+
+.checkbox-checked { color: #10b981; } /* Semantic green */
+
+.task-info { flex: 1; }
+
+.task-title {
+  font-size: 14px; font-weight: 500; /* Giảm độ đậm */
+  color: var(--text-color); /* Use text color */
+  margin: 0 0 6px 0; /* Giảm margin */
+  transition: color 0.3s ease; /* Add transition */
+}
+.task-item:hover .task-title {
+    color: var(--primary-color); /* Đổi màu title khi hover */
+}
+
+
+.task-meta { display: flex; align-items: center; gap: 10px; /* Giảm gap */ }
+
+/* Semantic priority colors */
+.task-priority { padding: 3px 8px; border-radius: 6px; font-size: 10px; font-weight: 600; color: white; text-transform: uppercase; line-height: 1.2;} /* Nhỏ hơn, thêm line-height */
+
+.task-deadline {
+  display: flex; align-items: center; gap: 4px; font-size: 12px;
+  color: var(--text-secondary-color); /* Use secondary text color */
+  font-weight: 500;
+  transition: color 0.3s ease; /* Add transition */
+}
+.task-deadline svg { color: currentColor; font-size: 14px; } /* Tăng size icon */
+
+
+.add-task-btn {
+  width: 100%; padding: 12px;
+  background-color: transparent; /* Nền trong suốt */
+  border: 1px dashed var(--border-color); /* Border nét đứt, màu viền */
+  border-radius: 10px;
+  color: var(--text-secondary-color); /* Màu chữ phụ */
+  font-weight: 500; /* Giảm độ đậm */
+  cursor: pointer; transition: all 0.3s ease;
+  display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px;
+}
+
+.add-task-btn:hover {
+  background-color: var(--bg-color); /* Nền chính khi hover */
+  border-color: var(--primary-color); /* Border màu chính */
+  border-style: solid;
+  color: var(--primary-color); /* Chữ màu chính */
+  /* transform: scale(1.02); */ /* Bỏ scale */
+}
+
+.add-task-btn .plus-icon { font-size: 18px; color: currentColor; } /* Nhỏ hơn */
+
+.delete-task-btn {
+  background: none; border: none;
+  color: var(--text-secondary-color); /* Use secondary text color */
+  cursor: pointer; padding: 6px; /* Giảm padding */
+  border-radius: 50%; /* Bo tròn */
+  transition: all 0.3s ease;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; /* Nhỏ hơn */
+  opacity: 0; /* Ẩn ban đầu */
+}
+.task-item:hover .delete-task-btn {
+    opacity: 1; /* Hiện khi hover task-item */
+}
+
+
+.delete-task-btn:hover {
+  background: #fee2e2; /* Keep semantic light red */
+  color: #ef4444; /* Keep semantic red */
+  transform: scale(1.1);
+}
+
+.empty-tasks {
+  text-align: center; padding: 32px;
+  color: var(--text-secondary-color); /* Use secondary text color */
+  transition: color 0.3s ease; /* Add transition */
+}
+
+.empty-tasks p { margin: 0; font-size: 14px; font-weight: 500; }
+
+/* Activities List */
+.activities-list { display: flex; flex-direction: column; gap: 12px; /* Giảm gap */ }
+
+.activity-item {
+  display: flex; align-items: start; gap: 12px; padding: 12px;
+  background: var(--bg-color); /* Use main background */
+  border-radius: 10px;
+  border-left: 3px solid var(--primary-color); /* Use primary color */
+  transition: all 0.3s ease;
+}
+
+.activity-item:hover {
+  background-color: var(--bg-secondary-color); /* Use secondary background */
+  /* transform: translateX(4px); */ /* Bỏ transform */
+  box-shadow: 0 2px 8px var(--shadow-color); /* Thêm shadow nhẹ */
+}
+
+.activity-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; } /* Nhỏ hơn, căn chỉnh */
+
+.activity-info { flex: 1; }
+
+.activity-text {
+  font-size: 14px; font-weight: 500; /* Giảm độ đậm */
+  color: var(--text-color); /* Use text color */
+  margin: 0 0 4px 0;
+  transition: color 0.3s ease; /* Add transition */
+}
+
+.activity-time {
+  font-size: 11px; /* Nhỏ hơn */
+  color: var(--text-secondary-color); /* Use secondary text color */
+  font-weight: 500;
+  transition: color 0.3s ease; /* Add transition */
+}
+
+/* Quick Actions */
+.quick-actions {
+  background: var(--bg-secondary-color); /* Use secondary background */
+  padding: 24px; border-radius: 16px;
+  box-shadow: 0 4px 12px var(--shadow-color); /* Use shadow variable */
+  border: 1px solid var(--border-color); /* Use border variable */
+  transition: all 0.3s ease;
+}
+
+.section-title {
+  font-size: 18px; font-weight: 600; /* Giảm độ đậm */
+  color: var(--text-color); /* Use text color */
+  margin: 0 0 20px 0;
+  transition: color 0.3s ease; /* Add transition */
+}
+
+.actions-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; /* Giảm minmax */
+}
+
+.action-btn {
+  display: flex; align-items: center; gap: 10px; padding: 14px 18px; /* Điều chỉnh padding */
+  border: 1px solid var(--border-color); /* Use border variable */
+  border-radius: 12px;
+  background: var(--bg-secondary-color); /* Use secondary background */
+  cursor: pointer; transition: all 0.3s ease; font-size: 14px; font-weight: 500; /* Giảm độ đậm */
+  color: var(--text-color); /* Use text color */
+  text-align: left; /* Căn trái text */
+}
+
+.action-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px var(--shadow-color); /* Giảm đổ bóng */
+  border-color: var(--primary-color); /* Thêm border màu khi hover */
+  /* Keep semantic hover backgrounds */
+}
+
+.action-icon { font-size: 20px; color: currentColor; transition: color 0.3s ease;} /* Nhỏ hơn */
+
+/* Keep semantic hover styles */
+.pomodoro-action:hover { background: #fef3c7; border-color: #fbbf24; color: #92400e; }
+.pomodoro-action:hover .action-icon { color: #f59e0b; }
+.task-action:hover { background: #e0f2fe; border-color: #7dd3fc; color: #0369a1;}
+.task-action:hover .action-icon { color: #0ea5e9; }
+.study-action:hover { background: #fee2e2; border-color: #fca5a5; color: #b91c1c;}
+.study-action:hover .action-icon { color: #ef4444; }
+.ai-action:hover { background: #dcfce7; border-color: #86efac; color: #047857;}
+.ai-action:hover .action-icon { color: #10b981; }
+
+
+/* Modal Styles - Nên dùng chung CSS modal thay vì lặp lại */
+/* ... (Giữ lại CSS Modal từ file Profile.css hoặc tạo file Modal.css riêng) ... */
+
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .content-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 992px) { /* Tablet */
+    .stats-grid { grid-template-columns: repeat(2, 1fr); } /* 2 cột trên tablet */
+}
+
+@media (max-width: 768px) {
+  .dashboard { /* Padding được xử lý bởi content-area */ }
+  .dashboard-header { flex-direction: column; gap: 16px; align-items: stretch; }
+  .date-info { justify-content: center; }
+  .welcome-title { font-size: 24px; } /* Nhỏ hơn */
+  .stats-grid { grid-template-columns: 1fr; }
+  .actions-grid { grid-template-columns: 1fr; }
+  /* .modal-content { width: 95%; margin: 20px; } */
+  /* .priority-options { flex-direction: column; } */
+}
