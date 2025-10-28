@@ -1,6 +1,19 @@
 import axios from "axios";
+// Đổi tên API_URL để sử dụng biến môi trường của Vite
+// Vercel sẽ tự động cung cấp biến môi trường này
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api"; // <-- THAY ĐỔI
+// const API_URL = "http://localhost:5000/api/workspaces"; // DÒNG CŨ
 
-const API_URL = "http://localhost:5000/api/workspaces";
+// Sửa lại API_URL trong workspaceService.js
+// Giả sử API_URL là gốc API (http://localhost:5000)
+// và service sẽ thêm '/workspaces' sau đó.
+
+export const workspaceService = {
+  // Thay đổi cách định nghĩa API_URL
+  getAllWorkspaces: async () => {
+    const response = await axios.get(`${API_URL}/workspaces`, getAuthHeader()); // <-- SỬ DỤNG TEMPLATE STRING
+    return response.data;
+  },
 
 // Get auth token from localStorage
 const getAuthHeader = () => {
@@ -28,7 +41,7 @@ export const workspaceService = {
   // Get workspace detail
   getWorkspaceDetail: async (workspaceId) => {
     const response = await axios.get(
-      `${API_URL}/${workspaceId}`,
+      `${API_URL}/workspaces/${workspaceId}`, // <-- SỬ DỤNG TEMPLATE STRING
       getAuthHeader()
     );
     return response.data;
