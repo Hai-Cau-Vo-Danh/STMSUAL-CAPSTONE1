@@ -1,3 +1,5 @@
+import eventlet # <-- Đảm bảo eventlet đã được import ở đây
+eventlet.monkey_patch() # <-- DÒNG NÀY PHẢI ĐẶT NGAY SAU IMPORT EVENTLET
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
