@@ -1,21 +1,9 @@
 import axios from "axios";
-// Đổi tên API_URL để sử dụng biến môi trường của Vite
-// Vercel sẽ tự động cung cấp biến môi trường này
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api"; // <-- THAY ĐỔI
-// const API_URL = "http://localhost:5000/api/workspaces"; // DÒNG CŨ
 
-// Sửa lại API_URL trong workspaceService.js
-// Giả sử API_URL là gốc API (http://localhost:5000)
-// và service sẽ thêm '/workspaces' sau đó.
+// Định nghĩa API URL cơ sở (Dùng biến môi trường Vercel/Vite hoặc localhost)
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
-export const workspaceService = {
-  // Thay đổi cách định nghĩa API_URL
-  getAllWorkspaces: async () => {
-    const response = await axios.get(`${API_URL}/workspaces`, getAuthHeader()); // <-- SỬ DỤNG TEMPLATE STRING
-    return response.data;
-  },
-
-// Get auth token from localStorage
+// Hàm lấy Header xác thực
 const getAuthHeader = () => {
   const token = localStorage.getItem("token");
 
@@ -31,17 +19,19 @@ const getAuthHeader = () => {
   };
 };
 
+// ĐỊNH NGHĨA VÀ EXPORT DỊCH VỤ WORKSPACE DUY NHẤT
 export const workspaceService = {
   // Get all workspaces
   getAllWorkspaces: async () => {
-    const response = await axios.get(API_URL, getAuthHeader());
+    // Sửa endpoint để sử dụng API_URL cơ sở
+    const response = await axios.get(`${API_URL}/workspaces`, getAuthHeader());
     return response.data;
   },
 
   // Get workspace detail
   getWorkspaceDetail: async (workspaceId) => {
     const response = await axios.get(
-      `${API_URL}/workspaces/${workspaceId}`, // <-- SỬ DỤNG TEMPLATE STRING
+      `${API_URL}/workspaces/${workspaceId}`,
       getAuthHeader()
     );
     return response.data;
@@ -49,14 +39,15 @@ export const workspaceService = {
 
   // Create workspace
   createWorkspace: async (workspaceData) => {
-    const response = await axios.post(API_URL, workspaceData, getAuthHeader());
+    // Sửa endpoint để sử dụng API_URL cơ sở
+    const response = await axios.post(`${API_URL}/workspaces`, workspaceData, getAuthHeader());
     return response.data;
   },
 
   // Update workspace
   updateWorkspace: async (workspaceId, updateData) => {
     const response = await axios.put(
-      `${API_URL}/${workspaceId}`,
+      `${API_URL}/workspaces/${workspaceId}`,
       updateData,
       getAuthHeader()
     );
@@ -66,7 +57,7 @@ export const workspaceService = {
   // Delete workspace
   deleteWorkspace: async (workspaceId) => {
     const response = await axios.delete(
-      `${API_URL}/${workspaceId}`,
+      `${API_URL}/workspaces/${workspaceId}`,
       getAuthHeader()
     );
     return response.data;
@@ -75,7 +66,7 @@ export const workspaceService = {
   // Invite member
   inviteMember: async (workspaceId, email, role) => {
     const response = await axios.post(
-      `${API_URL}/${workspaceId}/invite`,
+      `${API_URL}/workspaces/${workspaceId}/invite`,
       { email, role },
       getAuthHeader()
     );
@@ -85,7 +76,7 @@ export const workspaceService = {
   // Update member role
   updateMemberRole: async (workspaceId, memberId, role) => {
     const response = await axios.put(
-      `${API_URL}/${workspaceId}/members/${memberId}/role`,
+      `${API_URL}/workspaces/${workspaceId}/members/${memberId}/role`,
       { role },
       getAuthHeader()
     );
@@ -95,7 +86,7 @@ export const workspaceService = {
   // Remove member
   removeMember: async (workspaceId, memberId) => {
     const response = await axios.delete(
-      `${API_URL}/${workspaceId}/members/${memberId}`,
+      `${API_URL}/workspaces/${workspaceId}/members/${memberId}`,
       getAuthHeader()
     );
     return response.data;
@@ -104,7 +95,7 @@ export const workspaceService = {
   // Add list
   addList: async (workspaceId, title) => {
     const response = await axios.post(
-      `${API_URL}/${workspaceId}/lists`,
+      `${API_URL}/workspaces/${workspaceId}/lists`,
       { title },
       getAuthHeader()
     );
@@ -119,7 +110,7 @@ export const workspaceService = {
       : listId;
 
     const response = await axios.post(
-      `${API_URL}/${workspaceId}/lists/${actualListId}/cards`,
+      `${API_URL}/workspaces/${workspaceId}/lists/${actualListId}/cards`,
       cardData,
       getAuthHeader()
     );
@@ -129,7 +120,7 @@ export const workspaceService = {
   // Update list (rename)
   updateList: async (workspaceId, listId, title) => {
     const response = await axios.put(
-      `${API_URL}/${workspaceId}/lists/${listId}`,
+      `${API_URL}/workspaces/${workspaceId}/lists/${listId}`,
       { title },
       getAuthHeader()
     );
@@ -139,7 +130,7 @@ export const workspaceService = {
   // Delete list
   deleteList: async (workspaceId, listId) => {
     const response = await axios.delete(
-      `${API_URL}/${workspaceId}/lists/${listId}`,
+      `${API_URL}/workspaces/${workspaceId}/lists/${listId}`,
       getAuthHeader()
     );
     return response.data;
@@ -153,7 +144,7 @@ export const workspaceService = {
       : cardId;
 
     const response = await axios.put(
-      `${API_URL}/${workspaceId}/cards/${actualCardId}`,
+      `${API_URL}/workspaces/${workspaceId}/cards/${actualCardId}`,
       cardData,
       getAuthHeader()
     );
@@ -168,7 +159,7 @@ export const workspaceService = {
       : cardId;
 
     const response = await axios.delete(
-      `${API_URL}/${workspaceId}/cards/${actualCardId}`,
+      `${API_URL}/workspaces/${workspaceId}/cards/${actualCardId}`,
       getAuthHeader()
     );
     return response.data;
@@ -185,7 +176,7 @@ export const workspaceService = {
       : toListId;
 
     const response = await axios.put(
-      `${API_URL}/${workspaceId}/cards/${actualCardId}/move`,
+      `${API_URL}/workspaces/${workspaceId}/cards/${actualCardId}/move`,
       { list_id: actualListId, position },
       getAuthHeader()
     );
