@@ -4,7 +4,8 @@ import { BsPlayFill, BsPauseFill, BsStopFill, BsSkipEndFill, BsGearFill, BsMicFi
 import './StudyRoom.css';
 
 // ---------- CONFIG & SOCKET ----------
-const SOCKET_SERVER_URL = import.meta.env.VITE_API_URL_BASE || 'http://localhost:5000';
+// 🔥 SỬ DỤNG BIẾN MÔI TRƯỜNG MỚI
+const SOCKET_SERVER_URL = import.meta.env.VITE_SOCKET_URL_BASE || 'http://localhost:5000';
 const peerConnectionConfig = {
   iceServers: [{ urls: 'stun:stun.l.google.com:19302' }, { urls: 'stun:stun1.l.google.com:19302' }]
 };
