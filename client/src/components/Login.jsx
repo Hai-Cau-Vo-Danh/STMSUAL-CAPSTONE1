@@ -3,42 +3,46 @@ import { useNavigate } from "react-router-dom";
 import "./auth.css"; // Dùng chung CSS
 import loginArt from "../assets/DangNhap/login-art.png";
 
+// 🔥 THÊM HẰNG SỐ BASE URL
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+
 const Login = ({ onLoginSuccess }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false); // Thêm state loading
+  const [loading, setLoading] = useState(false); 
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    setError(""); // Xóa lỗi khi người dùng bắt đầu nhập lại
+    setError(""); 
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    setLoading(true); // Bật loading
+    setLoading(true); 
     const { email, password } = formData;
 
     if (!email || !password) {
       setError("Vui lòng nhập đầy đủ thông tin!");
-      setLoading(false); // Tắt loading
+      setLoading(false);
       return;
     }
 
     // Kiểm tra admin (hardcoded)
     if (email === "admin" && password === "123456") {
       localStorage.setItem("role", "admin");
-      localStorage.setItem("user", JSON.stringify({ username: "Admin" })); // Thêm user cho admin
+      localStorage.setItem("user", JSON.stringify({ username: "Admin" })); 
       onLoginSuccess();
-      setLoading(false); // Tắt loading
-      navigate("/dashboard-admin"); // Chuyển hướng admin
+      setLoading(false); 
+      navigate("/dashboard-admin");
       return;
     }
 
     // Login user thường (Gọi API)
     try {
-      const res = await fetch("http://localhost:5000/api/login", {
+      // 🔥 SỬA URL ĐĂNG NHẬP
+      const res = await fetch(`${API_BASE_URL}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -51,10 +55,10 @@ const Login = ({ onLoginSuccess }) => {
 
       if (res.ok) {
         localStorage.setItem("role", "user");
-        localStorage.setItem("user", JSON.stringify(data.user)); // Lưu thông tin user
+        localStorage.setItem("user", JSON.stringify(data.user)); 
         localStorage.setItem("token", data.token);
         onLoginSuccess();
-        navigate("/dashboard"); // Chuyển hướng user
+        navigate("/dashboard");
       } else {
         setError(data.message || "Đã xảy ra lỗi");
       }
@@ -62,7 +66,7 @@ const Login = ({ onLoginSuccess }) => {
       console.error("Lỗi đăng nhập:", error);
       setError("Không thể kết nối đến máy chủ!");
     } finally {
-      setLoading(false); // Tắt loading
+      setLoading(false); 
     }
   };
 
@@ -78,10 +82,10 @@ const Login = ({ onLoginSuccess }) => {
             <h2>Đăng nhập</h2>
 
             <input
-              type="text" // Có thể đổi thành "email"
+              type="text" 
               name="email"
               placeholder="Email"
-              value={formData.email} // Thêm value để control input
+              value={formData.email} 
               onChange={handleChange}
               required
             />
@@ -89,7 +93,7 @@ const Login = ({ onLoginSuccess }) => {
               type="password"
               name="password"
               placeholder="Mật khẩu"
-              value={formData.password} // Thêm value để control input
+              value={formData.password} 
               onChange={handleChange}
               required
             />
