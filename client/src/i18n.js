@@ -2,13 +2,17 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
-// 🔥 CHUYỂN LOGIC KHỞI TẠO VÀ IMPORT PLUGIN VÀO TRONG MỘT HÀM ASYNC
+// 🔥 KHAI BÁO CÁC BIẾN CHỨA PLUGIN TẠM THỜI (chỉ khai báo)
+let LanguageDetector;
+let HttpApi;
+
+// 🔥 HÀM INIT ASYNC CHÍNH
 const initI18n = async () => {
     try {
-        // Sử dụng Dynamic Import để đảm bảo Module được tải an toàn trong production
-        const LanguageDetector = (await import('i18next-browser-languagedetector')).default;
-        const HttpApi = (await import('i18next-http-backend')).default;
-
+        // Sử dụng Dynamic Import để Module được tải an toàn (Phương pháp mạnh mẽ nhất)
+        LanguageDetector = (await import('i18next-browser-languagedetector')).default;
+        HttpApi = (await import('i18next-http-backend')).default;
+        
         i18n
           .use(HttpApi)
           .use(LanguageDetector)
@@ -32,7 +36,10 @@ const initI18n = async () => {
             defaultNS: 'translation',
           });
     } catch (e) {
+        // Console log lỗi để debug
         console.error("Lỗi khởi tạo i18n/Dynamic Import:", e);
+        // Ngăn màn hình trắng bằng cách khởi tạo i18n với cấu hình cơ bản
+        i18n.init({ debug: false, fallbackLng: 'vi' }); 
     }
 };
 
