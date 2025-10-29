@@ -3,12 +3,17 @@ import io from 'socket.io-client';
 import { BsPlayFill, BsPauseFill, BsStopFill, BsSkipEndFill, BsGearFill, BsMicFill, BsMicMuteFill } from 'react-icons/bs';
 import './StudyRoom.css';
 
-// ---------- CONFIG & SOCKET ----------
-// 🔥 SỬ DỤNG BIẾN MÔI TRƯỜNG MỚI
+// 🔥 CẤU HÌNH URL CHO MÔI TRƯỜNG PRODUCTION
+// Lấy URL cơ sở (ví dụ: https://stmsuai-capstone.onrender.com)
 const SOCKET_SERVER_URL = import.meta.env.VITE_SOCKET_URL_BASE || 'http://localhost:5000';
+// Lấy URL API đầy đủ (ví dụ: https://stmsuai-capstone.onrender.com/api)
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
 const peerConnectionConfig = {
   iceServers: [{ urls: 'stun:stun.l.google.com:19302' }, { urls: 'stun:stun1.l.google.com:19302' }]
 };
+
+// 🔥 SỬ DỤNG SOCKET_SERVER_URL CÔNG KHAI
 const socket = io(SOCKET_SERVER_URL, { transports: ['websocket', 'polling'], autoConnect: true });
 
 // ---------- HELPER FUNCTIONS ----------
@@ -18,7 +23,6 @@ const playAlarm = () => { try { const audio = new Audio("https://actions.google.
 const getCurrentTimeString = () => new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
 // ---------- TIMER DISPLAY COMPONENT (Keep as is) ----------
-// THAY THẾ const TimerDisplay (khoảng dòng 17-35) BẰNG CODE NÀY:
 const TimerDisplay = ({ mode, duration, timeLeft, isRunning, cycle, onStartPause, onReset, isConnected }) => {
 
   // Helper function
@@ -153,7 +157,8 @@ const StudyRoom = () => {
     setHistoryLoading(true);
     setHistoryError(null);
     try {
-      const response = await fetch(`http://localhost:5000/api/pomodoro/history?userId=${userId}`);
+      // 🔥 SỬ DỤNG API_BASE_URL CÔNG KHAI
+      const response = await fetch(`${API_BASE_URL}/pomodoro/history?userId=${userId}`);
       if (!response.ok) throw new Error(`Lỗi HTTP: ${response.status}`);
       const data = await response.json();
       setHistory(data);
