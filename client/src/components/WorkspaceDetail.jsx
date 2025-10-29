@@ -28,7 +28,8 @@ import { SortableCard } from './SortableCard';
 import io from 'socket.io-client';
 import { workspaceService } from '../services/workspaceService';
 
-const SOCKET_URL = 'http://localhost:5000'; // Backend URL
+// 🔥 SỬ DỤNG BIẾN MÔI TRƯỜNG MỚI (chỉ URL cơ sở)
+const SOCKET_URL = import.meta.env.VITE_SOCKET_URL_BASE || 'http://localhost:5000';
 
 // Droppable List Component
 function DroppableList({ list, children }) {
