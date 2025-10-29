@@ -1,24 +1,31 @@
 // src/i18n.js
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import LanguageDetector from 'i18next-browser-languagedetector'; // Lỗi xảy ra ở dòng này
-import HttpApi from 'i18next-http-backend';
+
+// 🔥 SỬ DỤNG CÚ PHÁP REQUIRE CHO CÁC MODULE BÊN NGOÀI BỊ LỖI PHÂN GIẢI
+// @ts-ignore
+const LanguageDetector = (await import('i18next-browser-languagedetector')).default;
+// @ts-ignore
+const HttpApi = (await import('i18next-http-backend')).default;
+// 🔥 HOẶC DÙNG CÁCH NÀY NẾU CÁCH TRÊN VẪN LỖI: 
+// const LanguageDetector = require('i18next-browser-languagedetector');
+// const HttpApi = require('i18next-http-backend');
 
 // Cấu hình i18next
 i18n
-  .use(HttpApi) // Tải file dịch từ /public/locales
-  .use(LanguageDetector) // Tự phát hiện ngôn ngữ
-  .use(initReactI18next) // Kết nối với React
+  .use(HttpApi) 
+  .use(LanguageDetector) 
+  .use(initReactI18next) 
   .init({
     // Cấu hình cơ bản
-    debug: false, // Tắt debug khi triển khai production
-    supportedLngs: ['en', 'vi'], // Ngôn ngữ hỗ trợ
-    fallbackLng: 'vi', // Ngôn ngữ mặc định
+    debug: false, 
+    supportedLngs: ['en', 'vi'], 
+    fallbackLng: 'vi', 
     
     // Cấu hình phát hiện ngôn ngữ
     detection: {
       order: ['localStorage', 'cookie', 'htmlTag', 'path', 'subdomain'],
-      caches: ['localStorage', 'cookie'], // Lưu lựa chọn ngôn ngữ
+      caches: ['localStorage', 'cookie'], 
     },
     
     // Cấu hình Backend (Load translations)
@@ -28,7 +35,7 @@ i18n
     
     // Cấu hình React
     react: {
-      useSuspense: true, // Dùng Suspense để chờ tải
+      useSuspense: true, 
     },
     
     // Định nghĩa namespace mặc định
