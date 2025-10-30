@@ -2,16 +2,21 @@ import React, { useState, useRef, useEffect } from 'react';
 import './AIAssistant.css';
 import aiLogo from '../assets/Trangchu/art8.png';
 
-// 👈 THÊM HÀM NÀY: Lấy user_id từ localStorage
+// 🧠 Lấy user_id từ localStorage
 const getUserId = () => {
-    try {
-      const userString = localStorage.getItem("user");
-      if (userString) {
-        return JSON.parse(userString)?.user_id;
-      }
-    } catch (e) { console.error("Lỗi đọc user ID:", e); }
-    return null;
+  try {
+    const userString = localStorage.getItem("user");
+    if (userString) {
+      return JSON.parse(userString)?.user_id;
+    }
+  } catch (e) {
+    console.error("Lỗi đọc user ID:", e);
+  }
+  return null;
 };
+
+// 🧩 Lấy URL backend từ file .env
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const AIAssistant = () => {
   const [messages, setMessages] = useState([
@@ -43,29 +48,30 @@ const AIAssistant = () => {
     setInputValue('');
     setLoading(true);
     
-    // 👈 THÊM BƯỚC: Lấy và kiểm tra User ID
+    // ✅ Lấy và kiểm tra User ID
     const userId = getUserId();
     if (!userId) {
-        setMessages(prev => [
-            ...prev,
-            { id: Date.now() + 2, sender: 'ai', text: '⚠️ Lỗi: Không tìm thấy User ID! Vui lòng đăng nhập lại.', time: getTime() }
-        ]);
-        setLoading(false);
-        return;
+      setMessages(prev => [
+        ...prev,
+        { id: Date.now() + 2, sender: 'ai', text: '⚠️ Lỗi: Không tìm thấy User ID! Vui lòng đăng nhập lại.', time: getTime() }
+      ]);
+      setLoading(false);
+      return;
     }
 
     try {
-      const res = await fetch('http://localhost:5000/api/ai-chat', {
+      const res = await fetch(`${API_URL}/api/ai-chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        // 👈 SỬA DÒNG NÀY: Gửi message KÈM user_id
         body: JSON.stringify({ 
-            message: text,
-            user_id: userId 
+          message: text,
+          user_id: userId 
         })
       });
 
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
       const data = await res.json();
+
       const aiMsg = {
         id: Date.now() + 1,
         sender: 'ai',
@@ -74,9 +80,10 @@ const AIAssistant = () => {
       };
       setMessages(prev => [...prev, aiMsg]);
     } catch (error) {
+      console.error("❌ Lỗi gọi API:", error);
       setMessages(prev => [
         ...prev,
-        { id: Date.now() + 2, sender: 'ai', text: '⚠️ Server không phản hồi', time: getTime() }
+        { id: Date.now() + 2, sender: 'ai', text: '⚠️ Server không phản hồi hoặc API lỗi.', time: getTime() }
       ]);
     } finally {
       setLoading(false);
