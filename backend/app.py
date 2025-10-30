@@ -89,10 +89,6 @@ def ai_chat():
     if not message:
         return jsonify({"reply": "⚠️ Thiếu nội dung tin nhắn!"}), 400
 
-    # 👉 Đây là nơi bạn gọi logic AI thật (Gemini, OpenAI, v.v.)
-    reply = f"Xin chào {user_id or 'người dùng'}, tôi đã nhận: '{message}'"
-
-    return jsonify({"reply": reply})
 # ✅ Route test backend
 @app.route('/api/test', methods=['GET'])
 def test():
