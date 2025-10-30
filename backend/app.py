@@ -79,7 +79,20 @@ LUÔN LUÔN CHỈ TRẢ LỜI BẰNG JSON. KHÔNG THÊM BẤT KỲ TEXT NÀO KH�
 """
 
 # (Tất cả các route test, login, register, profile... giữ nguyên)
+#Route test url
+@app.route("/api/ai-chat", methods=["POST", "OPTIONS"])
+def ai_chat():
+    data = request.get_json()
+    message = data.get("message", "")
+    user_id = data.get("user_id", "")
 
+    if not message:
+        return jsonify({"reply": "⚠️ Thiếu nội dung tin nhắn!"}), 400
+
+    # 👉 Đây là nơi bạn gọi logic AI thật (Gemini, OpenAI, v.v.)
+    reply = f"Xin chào {user_id or 'người dùng'}, tôi đã nhận: '{message}'"
+
+    return jsonify({"reply": reply})
 # ✅ Route test backend
 @app.route('/api/test', methods=['GET'])
 def test():
