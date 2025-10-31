@@ -2034,3 +2034,138 @@ def add_list(workspace_id):
 if __name__ == '__main__':
     print("🚀 Starting Flask-SocketIO server with eventlet...")
     socketio.run(app, host='::', port=5000, debug=True)
+#API lấy danh sách task
+@app.route('/api/tasks', methods=['GET'])
+def get_tasks():
+    db = next(get_db())
+    status = request.args.get('status')
+    keyword = request.args.get('search')
+    query = db.query(Task)
+    if status:
+        query = query.filter(Task.status == status)
+    if keyword:
+        query = query.filter((Task.title.contains(keyword)) | (Task.description.contains(keyword)))
+    tasks = query.order_by(Task.deadline.asc()).all()
+    return jsonify([format_task_response(task) for task in tasks])
+
+#API tạo task mới
+@app.route('/api/tasks', methods=['POST'])
+def create_task():
+    db = next(get_db())
+    data = request.get_json()
+    title = data.get('title')
+    description = data.get('description')
+    priority = data.get('priority', 'medium')  # Default priority is medium
+    deadline_str = data.get('deadline')
+    
+    if not title:
+        return jsonify({"message": "Title is required"}), 400
+        
+    # Parse deadline if provided
+    task_data = {
+        'title': title,
+        'description': description,
+        'priority': priority,
+        'status': 'todo',  # Default status as per DB model
+        'creator_id': 1  # TODO: Get from authenticated user
+    }
+    
+    if deadline_str:
+        try:
+            task_data['deadline'] = datetime.strptime(deadline_str, '%Y-%m-%d %H:%M:%S')
+        except ValueError:
+            return jsonify({"message": "Invalid deadline format. Use YYYY-MM-DD HH:MM:SS"}), 400
+    
+    new_task = Task(**task_data)
+    
+    db.add(new_task)
+    db.commit()
+    db.refresh(new_task)
+    return jsonify({"message": "Task created successfully", "task": new_task.to_dict()}), 201
+
+#API chỉnh sửa task
+@app.route('/api/tasks/<int:task_id>', methods=['PUT'])
+def update_task(task_id):
+    db = next(get_db())
+    task = db.query(Task).filter(Task.task_id == task_id).first()
+    if not task:
+        return jsonify({"message": "Task not found"}), 404
+        
+    data = request.get_json()
+    
+    # Prepare update data
+    update_data = {}
+    
+    if 'title' in data:
+        update_data['title'] = data['title']
+    if 'description' in data:
+        update_data['description'] = data['description']
+    if 'priority' in data:
+        update_data['priority'] = data['priority']
+    if 'status' in data:
+        update_data['status'] = data['status']
+    if 'deadline' in data:
+        try:
+            update_data['deadline'] = datetime.strptime(data['deadline'], "%Y-%m-%d %H:%M:%S")
+        except ValueError:
+            return jsonify({"message": "Invalid deadline format. Use YYYY-MM-DD HH:MM:SS"}), 400
+    
+    # Update task using SQLAlchemy update
+    db.query(Task).filter(Task.task_id == task_id).update(update_data)
+    db.commit()
+    
+    # Fetch updated task
+    updated_task = db.query(Task).filter(Task.task_id == task_id).first()
+    return jsonify({
+        "message": "Task updated successfully", 
+        "task": {
+            "task_id": updated_task.task_id,
+            "title": updated_task.title,
+            "description": updated_task.description,
+            "deadline": updated_task.deadline.strftime('%Y-%m-%d %H:%M:%S') if getattr(updated_task, 'deadline', None) else None,
+            "priority": updated_task.priority,
+            "status": updated_task.status,
+            "created_at": updated_task.created_at.strftime('%Y-%m-%d %H:%M:%S') if getattr(updated_task, 'created_at', None) else None,
+            "updated_at": updated_task.updated_at.strftime('%Y-%m-%d %H:%M:%S') if getattr(updated_task, 'updated_at', None) else None
+        }
+    })
+
+#API xóa task
+@app.route('/api/tasks/<int:task_id>', methods=['DELETE'])
+def delete_task(task_id):
+    db = next(get_db())
+    result = db.query(Task).filter(Task.task_id == task_id).delete()
+    if not result:
+        return jsonify({"message": "Task not found"}), 404
+        
+    db.commit()
+    return jsonify({"message": "Task deleted successfully"})
+
+#API đánh dấu task hoàn thành
+@app.route('/api/tasks/<int:task_id>/complete', methods=['POST'])
+def complete_task(task_id):
+    db = next(get_db())
+    result = db.query(Task).filter(Task.task_id == task_id).update({"status": "completed"})
+    if not result:
+        return jsonify({"message": "Task not found"}), 404
+        
+    db.commit()
+    
+    # Fetch updated task
+    updated_task = db.query(Task).filter(Task.task_id == task_id).first()
+    return jsonify({
+        "message": "Task marked as completed",
+        "task": {
+            "task_id": updated_task.task_id,
+            "title": updated_task.title,
+            "description": updated_task.description,
+            "deadline": updated_task.deadline.strftime('%Y-%m-%d %H:%M:%S') if getattr(updated_task, 'deadline', None) else None,
+            "priority": updated_task.priority,
+            "status": updated_task.status,
+            "created_at": updated_task.created_at.strftime('%Y-%m-%d %H:%M:%S') if getattr(updated_task, 'created_at', None) else None,
+            "updated_at": updated_task.updated_at.strftime('%Y-%m-%d %H:%M:%S') if getattr(updated_task, 'updated_at', None) else None
+        }
+    })
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000, debug=True)
